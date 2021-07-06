@@ -2,16 +2,48 @@ import './style.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import Stats from 'three/examples/jsm/libs/stats.module';
 import { Water } from 'three/examples/jsm/objects/Water';
 import { Sky } from 'three/examples/jsm/objects/Sky';
-import * as dat from 'dat.gui'
+import * as dat from 'dat.gui';
 
-let canvas, stats;
-let camera, scene, renderer;
-let controls, water, sun;
+let canvas;
+let camera, scene, renderer, pmremGenerator, raycaster, mouse, currentIntersect;
+let controls, water, sun, sky, model, text;
+let textClicked = false;
 
-const init = () => {
+let controlTargetX = -30, controlTargetY = 10, controlTargetZ = 0;
+
+let modelsLoaded = false, fontLoaded = false, sceneLoaded = false, sceneFinished = false;
+
+const parameters = {
+    elevation: -3,
+    azimuth: 40,
+};
+
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+}
+
+const createEventListeners = () => {
+    window.addEventListener('click', (e) => {
+        e.preventDefault();
+        textClicked = true;
+    });
+
+    window.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        textClicked = true;
+    });
+
+    window.addEventListener('resize', () => {
+        camera.aspect = sizes.width / sizes.height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(sizes.width, sizes.height);
+    });
+}
+
+const sceneSetup = () => {
     canvas = document.querySelector('canvas.webgl');
 
     renderer = new THREE.WebGLRenderer({
@@ -19,57 +51,29 @@ const init = () => {
         antialias: true
     });
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(sizes.width, sizes.height);
     renderer.toneMapping = THREE.NoToneMapping;
     // renderer.toneMappingExposure = 2;
 
+    pmremGenerator = new THREE.PMREMGenerator(renderer);
+
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
-    camera.position.set(30, 30, 100);
-
-    sun = new THREE.Vector3();
-
-    // Water
-    const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
+    camera = new THREE.PerspectiveCamera(55, sizes.width / sizes.height, 1, 20000);
+    camera.position.set(-60, 20, -100);
     
-    water = new Water(
-        waterGeometry,
-        {
-            textureWidth: 1028,
-            textureHeight: 1028,
-            waterNormals: new THREE.TextureLoader().load('textures/waternormals.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-            }),
-            sunDirection: new THREE.Vector3(),
-            sunColor: 0xffffff,
-            waterColor: 0x001e0f,
-            distortionScale: 20,
-            fog: scene.fog !== undefined,
-        }
-    );
+    controls = new OrbitControls(camera, canvas);
+    // controls.minPolarAngle = Math.PI * 0.495;
+    // controls.maxPolarAngle = Math.PI * 0.495;
+    // controls.minDistance = 40.0;
+    // controls.maxDistance = 200.0;
+    controls.target.set(controlTargetX, controlTargetY, controlTargetZ);
+    controls.enabled = false;
+    controls.update();
+};
 
-    water.rotation.x = -Math.PI / 2;
-    scene.add(water);
-
-    // Skybox
-    const sky = new Sky();
-    sky.scale.setScalar(10000);
-    scene.add(sky);
-
-    const skyUniforms = sky.material.uniforms;
-
-    skyUniforms['turbidity'].value = 1.5;
-    skyUniforms['rayleigh'].value = 3;
-    skyUniforms['mieCoefficient'].value = 0.0006;
-    skyUniforms['mieDirectionalG'].value = 0.8;
-
-    const parameters = {
-        elevation: 1,
-        azimuth: -138,
-    };
-
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+const buildSun = () => {
+    sun = new THREE.Vector3();
 
     const updateSun = () => {
         const phi = THREE.MathUtils.degToRad(90 - parameters.elevation);
@@ -84,20 +88,60 @@ const init = () => {
     };
 
     updateSun();
+};
 
-    controls = new OrbitControls(camera, canvas);
-    controls.maxPolarAngle = Math.PI * 0.495;
-    controls.target.set(0, 10, 0);
-    controls.minDistance = 40.0;
-    controls.maxDistance = 200.0;
-    controls.update();
+const buildWater = () => {
+    const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
+    
+    water = new Water(
+        waterGeometry,
+        {
+            textureWidth: 512,
+            textureHeight: 512,
+            waterNormals: new THREE.TextureLoader().load('textures/waternormals.jpg', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            sunDirection: new THREE.Vector3(),
+            sunColor: 0xffffff,
+            waterColor: 0x001e0f,
+            distortionScale: 20,
+            fog: scene.fog !== undefined,
+        }
+    );
 
-    stats = new Stats();
-    canvas.appendChild(stats.dom);
+    water.rotation.x = -Math.PI / 2;
+};
 
-    // 3D Models
-    let model = new THREE.Group();
+const buildSky = () => {
+    sky = new Sky();
+    sky.scale.setScalar(10000);
 
+    const skyUniforms = sky.material.uniforms;
+
+    skyUniforms['turbidity'].value = 1.5;
+    skyUniforms['rayleigh'].value = 3;
+    skyUniforms['mieCoefficient'].value = 0.0006;
+    skyUniforms['mieDirectionalG'].value = 0.8;
+};
+
+const addAssets = () => {
+    if (modelsLoaded && fontLoaded && !sceneLoaded) {
+        const groupScale = sizes.width * 0.002;
+        model.scale.set(groupScale, groupScale, groupScale);
+        scene.add(sky);
+        scene.add(model);
+        scene.add(water);
+        sceneLoaded = true;
+    }
+}
+
+const buildAssets = () => {
+    model = new THREE.Group();
+    buildModels();
+    buildFont();
+};
+
+const buildModels = () => {
     const gltfLoader = new GLTFLoader();
 
     gltfLoader.load('models/rock/scene.gltf', (rock) => {
@@ -110,18 +154,48 @@ const init = () => {
             model.add(seagull.scene);
             
             model.position.set(3, 3, 3);
-            scene.add(model);
+            modelsLoaded = true;            
         });
     });
+};
 
-    // Sounds
+const buildFont = () => {
+    const fontLoader = new THREE.FontLoader();
+
+    fontLoader.load(
+        '/fonts/typeface/sigmarone_regular.typeface.json',
+        (font) => {
+            const textGeometry = new THREE.TextGeometry(
+                '    Pledge to\n#LeaveNoTrace',
+                {
+                    font: font,
+                    size: 5,
+                    height: 0.2,
+                    curveSegments: 12,
+                    bevelEnabled: true,
+                    bevelThickness: 0.03,
+                    bevelSize: 0.02,
+                    bevelOffset: 0,
+                    bevelSegments: 5
+                }
+            );
+            const textMaterial = new THREE.MeshBasicMaterial({color: '#eae2b7'});
+            text = new THREE.Mesh(textGeometry, textMaterial);
+            text.rotation.set(0, -210, 0);
+            text.position.set(-15, 30, 20);
+            text.name = 'text';
+            model.add(text);
+            fontLoaded = true;
+        });
+};
+
+const buildSounds = () => {
     const listener = new THREE.AudioListener();
-    camera.add(listener);
-
     const sound = new THREE.Audio(listener);    
-
     const audioLoader = new THREE.AudioLoader();
-
+    
+    camera.add(listener);
+    
     const playSound = () => {
         audioLoader.load('/sounds/seagull-sounds.mp3', (buffer) => {
             sound.setBuffer(buffer);
@@ -130,46 +204,100 @@ const init = () => {
         });
     }
 
-    // GUI
-    const gui = new dat.GUI();
-
-    const folderSky = gui.addFolder('Sky');
-    folderSky.add(parameters, 'elevation', -1, 180, 0.01).onChange(updateSun);
-    folderSky.add(parameters, 'azimuth', -180, 180, 0.1).onChange(updateSun);
-    folderSky.open();
-
-    const waterUniforms = water.material.uniforms;
-
-    const folderWater = gui.addFolder('Water');
-    folderWater.add(waterUniforms.distortionScale, 'value', 0, 40, 0.1).name('distortionScale');
-    folderWater.add(waterUniforms.size, 'value', 0.1, 10, 0.1).name('size');
-    folderWater.open();
-    
-    // window.addEventListener('click', () => {
-    //     if (!sound.isPlaying) {
-    //         playSound();       
-    //     }
-    // });   
-    window.addEventListener('resize', onWindowResize);
+    window.addEventListener('click', () => {
+        if (!sound.isPlaying) {
+            playSound();       
+        }
+    });   
 };
 
-const onWindowResize = () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+// const buildGUI = () => {
+//     const gui = new dat.GUI();
+//     const folderSky = gui.addFolder('Sky');
+
+//     folderSky.add(parameters, 'elevation', -1, 180, 0.01).onChange(() => {
+//         buildSun()
+//     });
+//     folderSky.add(parameters, 'azimuth', -180, 180, 0.1).onChange(() => { 
+//         buildSun();
+//     });
+//     folderSky.open();
+
+//     const waterUniforms = water.material.uniforms;
+
+//     const folderWater = gui.addFolder('Water');
+//     folderWater.add(waterUniforms.distortionScale, 'value', 0, 40, 0.1).name('distortionScale');
+//     folderWater.add(waterUniforms.size, 'value', 0.1, 10, 0.1).name('size');
+//     folderWater.open();
+// };
+
+const init = async () => {
+    window.addEventListener('load', (e) => {
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0,0);
+    });
+
+    sceneSetup();
+
+    buildWater();
+    buildSky();
+    buildSun();
+
+    buildAssets();
+    // buildFont();
+
+    // buildSounds();
+    // buildGUI();
+
+    createEventListeners();
 };
 
 const animate = () => {
-    requestAnimationFrame(animate);
-    render();
-    stats.update();
-}
+    addAssets();
 
-const render = () => {
-    // const time = performance.now() * 0.001;
+    const time = performance.now() * 0.001;
+
+    // Water distortion
     water.material.uniforms['time'].value += 1.0 / 80.0;
+
+    if (text) {
+        if (textClicked && text.position.y > -20) {
+            // Floating text
+            text.position.y -= 0.1;
+            text.rotation.x = Math.sin( time ) * 0.3;
+            text.position.z = Math.sin( time ) * 0.3;
+
+            // Text colour lerp
+            text.material.color.set(text.material.color.lerp(new THREE.Color('#203d3f'), 0.01));
+
+            // Move camera target
+            if (controlTargetY > text.position.y && sceneFinished === false) {
+                controlTargetY = text.position.y;
+                controls.target.set(controlTargetX, controlTargetY, controlTargetZ);
+                controls.update();
+            }
+
+            // Rising sun
+            if (parameters.elevation < 3.5) {
+                parameters.elevation += 0.015;
+                parameters.azimuth -= 0.005;
+                buildSun();
+            }
+        }
+        
+        // Scroll down to the pledge
+        else if (textClicked && text.position.y < -20 && !sceneFinished) {
+            document.getElementById('container').scrollIntoView({ behavior: 'smooth', block: 'end' });
+            textClicked = false;
+            sceneFinished = true;
+        }
+    }
+
     renderer.render(scene, camera);
-};
+    requestAnimationFrame(animate);
+}
 
 init();
 animate();
