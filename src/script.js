@@ -7,23 +7,59 @@ import { Sky } from 'three/examples/jsm/objects/Sky';
 import * as dat from 'dat.gui';
 
 let canvas;
-let camera, scene, renderer, pmremGenerator, raycaster, mouse, currentIntersect;
+let camera, scene, renderer, pmremGenerator;
 let controls, water, sun, sky, model, text;
 let textClicked = false;
 
 let controlTargetX = -30, controlTargetY = 10, controlTargetZ = 0;
 
-let modelsLoaded = false, fontLoaded = false, sceneLoaded = false, sceneFinished = false;
+let modelsLoaded = false, fontLoaded = false, sceneLoaded = false, reloadRequested = false, sceneFinished = false;
 
 const parameters = {
+    modelScale: undefined,
+    modelPosition: undefined,
     elevation: -3,
-    azimuth: 40,
+    azimuth: undefined,
+    distortionScale: undefined,
+    distortionSize: undefined
 };
 
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
 }
+
+let isTablet = sizes.width > 400 && sizes.width < 800;
+let isMobile = sizes.width <= 400;
+
+console.log('isTablet', isTablet);
+console.log('isMobile', isMobile);
+
+const calculateLayout = () => {
+    if (isTablet) {
+        parameters.modelScale = 0.75;
+        parameters.modelPosition = new THREE.Vector3(3, 3, 3);
+        parameters.azimuth = 35;
+        parameters.distortionScale = 14;
+        parameters.distortionSize = 3;
+    }
+    
+    else if (isMobile) {
+        parameters.modelScale = 0.5;
+        parameters.modelPosition = new THREE.Vector3(-12, 3, 3);
+        parameters.azimuth = 30;
+        parameters.distortionScale = 12;
+        parameters.distortionSize = 3;
+    }
+
+    else {
+        parameters.modelScale = 1;
+        parameters.modelPosition = new THREE.Vector3(3, 3, 3);
+        parameters.azimuth = 40;
+        parameters.distortionScale = 20;
+        parameters.distortionSize = 3;
+    }
+};
 
 const createEventListeners = () => {
     window.addEventListener('click', (e) => {
@@ -32,18 +68,17 @@ const createEventListeners = () => {
     });
 
     window.addEventListener('touchstart', (e) => {
-        e.preventDefault();
         textClicked = true;
     });
 
     window.addEventListener('resize', () => {
-        camera.aspect = sizes.width / sizes.height;
-        camera.updateProjectionMatrix();
-        renderer.setSize(sizes.width, sizes.height);
+        window.location.href = window.location.href
     });
 }
 
 const sceneSetup = () => {
+    calculateLayout();
+
     canvas = document.querySelector('canvas.webgl');
 
     renderer = new THREE.WebGLRenderer({
@@ -104,7 +139,7 @@ const buildWater = () => {
             sunDirection: new THREE.Vector3(),
             sunColor: 0xffffff,
             waterColor: 0x001e0f,
-            distortionScale: 20,
+            distortionScale: parameters.distortionScale,
             fog: scene.fog !== undefined,
         }
     );
@@ -125,9 +160,18 @@ const buildSky = () => {
 };
 
 const addAssets = () => {
+    // Clear the scene
+    if (sceneLoaded && reloadRequested) {
+        while(scene.children.length > 0){ 
+            scene.remove(scene.children[0]); 
+        }
+        reloadRequested = false;
+        sceneLoaded = false;
+    }
+
+    // Add scene children
     if (modelsLoaded && fontLoaded && !sceneLoaded) {
-        const groupScale = sizes.width * 0.002;
-        model.scale.set(groupScale, groupScale, groupScale);
+        model.scale.set(parameters.modelScale, parameters.modelScale, parameters.modelScale);
         scene.add(sky);
         scene.add(model);
         scene.add(water);
@@ -153,7 +197,7 @@ const buildModels = () => {
             seagull.scene.position.set(3, 14, 0);
             model.add(seagull.scene);
             
-            model.position.set(3, 3, 3);
+            model.position.set(parameters.modelPosition.x, parameters.modelPosition.y, parameters.modelPosition.z);
             modelsLoaded = true;            
         });
     });
@@ -189,27 +233,27 @@ const buildFont = () => {
         });
 };
 
-const buildSounds = () => {
-    const listener = new THREE.AudioListener();
-    const sound = new THREE.Audio(listener);    
-    const audioLoader = new THREE.AudioLoader();
+// const buildSounds = () => {
+//     const listener = new THREE.AudioListener();
+//     const sound = new THREE.Audio(listener);    
+//     const audioLoader = new THREE.AudioLoader();
     
-    camera.add(listener);
+//     camera.add(listener);
     
-    const playSound = () => {
-        audioLoader.load('/sounds/seagull-sounds.mp3', (buffer) => {
-            sound.setBuffer(buffer);
-            sound.setLoop(true);
-            sound.play();
-        });
-    }
+//     const playSound = () => {
+//         audioLoader.load('/sounds/seagull-sounds.mp3', (buffer) => {
+//             sound.setBuffer(buffer);
+//             sound.setLoop(true);
+//             sound.play();
+//         });
+//     }
 
-    window.addEventListener('click', () => {
-        if (!sound.isPlaying) {
-            playSound();       
-        }
-    });   
-};
+//     window.addEventListener('click', () => {
+//         if (!sound.isPlaying) {
+//             playSound();       
+//         }
+//     });   
+// };
 
 // const buildGUI = () => {
 //     const gui = new dat.GUI();
@@ -244,9 +288,7 @@ const init = async () => {
     buildWater();
     buildSky();
     buildSun();
-
     buildAssets();
-    // buildFont();
 
     // buildSounds();
     // buildGUI();
