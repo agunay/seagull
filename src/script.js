@@ -6,7 +6,7 @@ import { Water } from 'three/examples/jsm/objects/Water';
 import { Sky } from 'three/examples/jsm/objects/Sky';
 import * as dat from 'dat.gui';
 
-let canvas;
+let canvas, spinner;
 let camera, scene, renderer, pmremGenerator;
 let controls, water, sun, sky, model, text;
 let textClicked = false;
@@ -31,9 +31,6 @@ const sizes = {
 
 let isTablet = sizes.width > 400 && sizes.width < 800;
 let isMobile = sizes.width <= 400;
-
-console.log('isTablet', isTablet);
-console.log('isMobile', isMobile);
 
 const calculateLayout = () => {
     if (isTablet) {
@@ -79,6 +76,7 @@ const createEventListeners = () => {
 const sceneSetup = () => {
     calculateLayout();
 
+    spinner = document.querySelector('.spinner-container');
     canvas = document.querySelector('canvas.webgl');
 
     renderer = new THREE.WebGLRenderer({
@@ -172,10 +170,15 @@ const addAssets = () => {
     // Add scene children
     if (modelsLoaded && fontLoaded && !sceneLoaded) {
         model.scale.set(parameters.modelScale, parameters.modelScale, parameters.modelScale);
+
         scene.add(sky);
         scene.add(model);
         scene.add(water);
+
         sceneLoaded = true;
+
+        canvas.classList.add('fadeIn');
+        spinner.classList.add('fadeOut');
     }
 }
 
@@ -299,41 +302,43 @@ const init = async () => {
 const animate = () => {
     addAssets();
 
-    const time = performance.now() * 0.001;
+    if (sceneLoaded) {
+        const time = performance.now() * 0.001;
 
-    // Water distortion
-    water.material.uniforms['time'].value += 1.0 / 80.0;
-
-    if (text) {
-        if (textClicked && text.position.y > -20) {
-            // Floating text
-            text.position.y -= 0.1;
-            text.rotation.x = Math.sin( time ) * 0.3;
-            text.position.z = Math.sin( time ) * 0.3;
-
-            // Text colour lerp
-            text.material.color.set(text.material.color.lerp(new THREE.Color('#203d3f'), 0.01));
-
-            // Move camera target
-            if (controlTargetY > text.position.y && sceneFinished === false) {
-                controlTargetY = text.position.y;
-                controls.target.set(controlTargetX, controlTargetY, controlTargetZ);
-                controls.update();
+        // Water distortion
+        water.material.uniforms['time'].value += 1.0 / 80.0;
+    
+        if (text) {
+            if (textClicked && text.position.y > -20) {
+                // Floating text
+                text.position.y -= 0.1;
+                text.rotation.x = Math.sin( time ) * 0.3;
+                text.position.z = Math.sin( time ) * 0.3;
+    
+                // Text colour lerp
+                text.material.color.set(text.material.color.lerp(new THREE.Color('#203d3f'), 0.01));
+    
+                // Move camera target
+                if (controlTargetY > text.position.y && sceneFinished === false) {
+                    controlTargetY = text.position.y;
+                    controls.target.set(controlTargetX, controlTargetY, controlTargetZ);
+                    controls.update();
+                }
+    
+                // Rising sun
+                if (parameters.elevation < 3.5) {
+                    parameters.elevation += 0.015;
+                    parameters.azimuth -= 0.005;
+                    buildSun();
+                }
             }
-
-            // Rising sun
-            if (parameters.elevation < 3.5) {
-                parameters.elevation += 0.015;
-                parameters.azimuth -= 0.005;
-                buildSun();
+            
+            // Scroll down to the pledge
+            else if (textClicked && text.position.y < -20 && !sceneFinished) {
+                document.getElementById('container').scrollIntoView({ behavior: 'smooth', block: 'end' });
+                textClicked = false;
+                sceneFinished = true;
             }
-        }
-        
-        // Scroll down to the pledge
-        else if (textClicked && text.position.y < -20 && !sceneFinished) {
-            document.getElementById('container').scrollIntoView({ behavior: 'smooth', block: 'end' });
-            textClicked = false;
-            sceneFinished = true;
         }
     }
 

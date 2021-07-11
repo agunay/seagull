@@ -14,8 +14,19 @@ html, body {
 body {
     overflow: hidden;
 }
+.spinner-container {
+    background-color: #120d0d;
+    width: 100vw;
+    min-height: 100vh;
+    -webkit-animation-duration: 3s;animation-duration: 3s;
+    -webkit-animation-fill-mode: both;animation-fill-mode: both;
+}
 canvas {
     cursor: pointer;
+    position: absolute;
+    top: 0;
+    -webkit-animation-duration: 3s;animation-duration: 3s;
+    -webkit-animation-fill-mode: both;animation-fill-mode: both;
 }
 #container {
     background-color: #284245;
@@ -47,4 +58,179 @@ canvas {
     border-radius: 20px;
     background-color: #fcbf49;
     color: #284245;
+}
+
+/* ----- FADE IN/OUT ----- */
+@-webkit-keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+ }
+ 
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+@-webkit-keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+ }
+ 
+ @keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+ }
+
+ .fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+ }
+
+ .fadeOut {
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+ }
+
+/* ----- SPINNER ----- */
+.cssload-container *, .cssload-container *:before, .cssload-container *:after{
+	box-sizing: border-box;
+		-o-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+}
+
+.cssload-container {
+	margin: 45vh auto;
+	width: 113px;
+	height: 56px;
+}
+
+.cssload-container > div {
+	background: rgb(238, 222, 130);
+	height: 100%;
+	width: 9px;
+	margin-right: 2px;
+	display: inline-block;
+}
+
+.cssload-container .cssload-shaft1 {
+	animation-delay: 0.06s;
+		-o-animation-delay: 0.06s;
+		-ms-animation-delay: 0.06s;
+		-webkit-animation-delay: 0.06s;
+		-moz-animation-delay: 0.06s;
+}
+.cssload-container .cssload-shaft2 {
+	animation-delay: 0.12s;
+		-o-animation-delay: 0.12s;
+		-ms-animation-delay: 0.12s;
+		-webkit-animation-delay: 0.12s;
+		-moz-animation-delay: 0.12s;
+}
+.cssload-container .cssload-shaft3 {
+	animation-delay: 0.17s;
+		-o-animation-delay: 0.17s;
+		-ms-animation-delay: 0.17s;
+		-webkit-animation-delay: 0.17s;
+		-moz-animation-delay: 0.17s;
+}
+.cssload-container .cssload-shaft4 {
+	animation-delay: 0.23s;
+		-o-animation-delay: 0.23s;
+		-ms-animation-delay: 0.23s;
+		-webkit-animation-delay: 0.23s;
+		-moz-animation-delay: 0.23s;
+}
+.cssload-container .cssload-shaft5 {
+	animation-delay: 0.29s;
+		-o-animation-delay: 0.29s;
+		-ms-animation-delay: 0.29s;
+		-webkit-animation-delay: 0.29s;
+		-moz-animation-delay: 0.29s;
+}
+.cssload-container .cssload-shaft6 {
+	animation-delay: 0.35s;
+		-o-animation-delay: 0.35s;
+		-ms-animation-delay: 0.35s;
+		-webkit-animation-delay: 0.35s;
+		-moz-animation-delay: 0.35s;
+}
+.cssload-container .cssload-shaft7 {
+	animation-delay: 0.4s;
+		-o-animation-delay: 0.4s;
+		-ms-animation-delay: 0.4s;
+		-webkit-animation-delay: 0.4s;
+		-moz-animation-delay: 0.4s;
+}
+.cssload-container .cssload-shaft8 {
+	animation-delay: 0.46s;
+		-o-animation-delay: 0.46s;
+		-ms-animation-delay: 0.46s;
+		-webkit-animation-delay: 0.46s;
+		-moz-animation-delay: 0.46s;
+}
+.cssload-container .cssload-shaft9 {
+	animation-delay: 0.52s;
+		-o-animation-delay: 0.52s;
+		-ms-animation-delay: 0.52s;
+		-webkit-animation-delay: 0.52s;
+		-moz-animation-delay: 0.52s;
+}
+.cssload-container .cssload-shaft10 {
+	animation-delay: 0.58s;
+		-o-animation-delay: 0.58s;
+		-ms-animation-delay: 0.58s;
+		-webkit-animation-delay: 0.58s;
+		-moz-animation-delay: 0.58s;
+}
+
+.cssload-container > div {
+	animation: cssload-loading 1.73s infinite ease-in-out;
+		-o-animation: cssload-loading 1.73s infinite ease-in-out;
+		-ms-animation: cssload-loading 1.73s infinite ease-in-out;
+		-webkit-animation: cssload-loading 1.73s infinite ease-in-out;
+		-moz-animation: cssload-loading 1.73s infinite ease-in-out;
+	transform: scaleY(0.05) translateX(-19px);
+		-o-transform: scaleY(0.05) translateX(-19px);
+		-ms-transform: scaleY(0.05) translateX(-19px);
+		-webkit-transform: scaleY(0.05) translateX(-19px);
+		-moz-transform: scaleY(0.05) translateX(-19px);
+}
+
+
+
+@keyframes cssload-loading {
+	50% {
+		transform: scaleY(1.2) translateX(19px);
+		background: rgb(42, 117, 86);
+	}
+}
+
+@-o-keyframes cssload-loading {
+	50% {
+		-o-transform: scaleY(1.2) translateX(19px);
+		background: rgb(42, 117, 86);
+	}
+}
+
+@-ms-keyframes cssload-loading {
+	50% {
+		-ms-transform: scaleY(1.2) translateX(19px);
+		background: rgb(42, 117, 86);
+	}
+}
+
+@-webkit-keyframes cssload-loading {
+	50% {
+		-webkit-transform: scaleY(1.2) translateX(19px);
+		background: rgb(42, 117, 86);
+	}
+}
+
+@-moz-keyframes cssload-loading {
+	50% {
+		-moz-transform: scaleY(1.2) translateX(19px);
+		background: rgb(42, 117, 86);
+	}
 }
