@@ -1,6 +1,6 @@
 @font-face {
     font-family: customFont;
-    src: url(../static/fonts/PatrickHand-Regular.ttf);
+    src: url(../static/fonts/Urbanist/Urbanist-Regular.ttf);
 }
 html, body {
     margin: 0;
@@ -15,22 +15,26 @@ body {
     overflow: hidden;
 }
 .spinner-container {
-    background-color: #120d0d;
+    background-color: #000000;
     width: 100vw;
     min-height: 100vh;
-    -webkit-animation-duration: 3s;animation-duration: 3s;
+    -webkit-animation-duration: 12s;animation-duration: 12s;
     -webkit-animation-fill-mode: both;animation-fill-mode: both;
 }
 canvas {
     cursor: pointer;
     position: absolute;
     top: 0;
-    -webkit-animation-duration: 3s;animation-duration: 3s;
+    -webkit-animation-duration: 12s;animation-duration: 12s;
     -webkit-animation-fill-mode: both;animation-fill-mode: both;
 }
 #container {
     background-color: #284245;
     min-height: 100vh;
+}
+.text-content {
+    width: 78%;
+    margin: 0 auto;
 }
 #content {
     margin: 24px;
@@ -160,10 +164,12 @@ canvas {
 	margin: 45vh auto;
 	width: 113px;
 	height: 56px;
+    -webkit-animation-duration: 2s;animation-duration: 2s;
+    -webkit-animation-fill-mode: both;animation-fill-mode: both;
 }
 
 .cssload-container > div {
-	background: rgb(238, 222, 130);
+	background: #ffffff;
 	height: 100%;
 	width: 9px;
 	margin-right: 2px;
@@ -259,34 +265,34 @@ canvas {
 @keyframes cssload-loading {
 	50% {
 		transform: scaleY(1.2) translateX(19px);
-		background: rgb(42, 117, 86);
+		background: #ffffff;
 	}
 }
 
 @-o-keyframes cssload-loading {
 	50% {
 		-o-transform: scaleY(1.2) translateX(19px);
-		background: rgb(42, 117, 86);
+		background: #ffffff;
 	}
 }
 
 @-ms-keyframes cssload-loading {
 	50% {
 		-ms-transform: scaleY(1.2) translateX(19px);
-		background: rgb(42, 117, 86);
+		background: #ffffff;
 	}
 }
 
 @-webkit-keyframes cssload-loading {
 	50% {
 		-webkit-transform: scaleY(1.2) translateX(19px);
-		background: rgb(42, 117, 86);
+		background: #ffffff;
 	}
 }
 
 @-moz-keyframes cssload-loading {
 	50% {
 		-moz-transform: scaleY(1.2) translateX(19px);
-		background: rgb(42, 117, 86);
+		background: #ffffff;
 	}
 }

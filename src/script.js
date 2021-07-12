@@ -6,7 +6,7 @@ import { Water } from 'three/examples/jsm/objects/Water';
 import { Sky } from 'three/examples/jsm/objects/Sky';
 import * as dat from 'dat.gui';
 
-let canvas, spinner;
+let canvas, spinnerBackground, spinner;
 let camera, scene, renderer, pmremGenerator;
 let controls, water, sun, sky, model, text;
 let textClicked = false;
@@ -76,7 +76,8 @@ const createEventListeners = () => {
 const sceneSetup = () => {
     calculateLayout();
 
-    spinner = document.querySelector('.spinner-container');
+    spinnerBackground = document.querySelector('.spinner-container');
+    spinner = document.querySelector('.cssload-container');
     canvas = document.querySelector('canvas.webgl');
 
     renderer = new THREE.WebGLRenderer({
@@ -176,8 +177,11 @@ const addAssets = () => {
         scene.add(water);
 
         sceneLoaded = true;
+    }
 
+    else if (sceneLoaded) {
         canvas.classList.add('fadeIn');
+        spinnerBackground.classList.add('fadeOut');
         spinner.classList.add('fadeOut');
     }
 }
@@ -210,14 +214,14 @@ const buildFont = () => {
     const fontLoader = new THREE.FontLoader();
 
     fontLoader.load(
-        '/fonts/typeface/sigmarone_regular.typeface.json',
+        '/fonts/Urbanist/Urbanist_Bold.typeface.json',
         (font) => {
             const textGeometry = new THREE.TextGeometry(
                 '#LeaveNoTrace',
                 {
                     font: font,
-                    size: 5,
-                    height: 0.2,
+                    size: 8,
+                    height: 0.05,
                     curveSegments: 12,
                     bevelEnabled: true,
                     bevelThickness: 0.03,
@@ -227,7 +231,7 @@ const buildFont = () => {
                 }
             );
             const textMaterial = new THREE.MeshBasicMaterial({
-                color: '#617764', 
+                color: '#000000', 
                 transparent: true
             });
             text = new THREE.Mesh(textGeometry, textMaterial);
@@ -314,8 +318,8 @@ const animate = () => {
         if (text) {
             if (textClicked && text.material.opacity >= 0) {   
                 // Text colour lerp
-                text.material.color.set(text.material.color.lerp(new THREE.Color('#a19362'), 0.01));
-                text.material.opacity -= 0.0025;
+                // text.material.color.set(text.material.color.lerp(new THREE.Color('#a19362'), 0.01));
+                text.material.opacity -= 0.0015;
     
                 // Move camera target
                 if (controlTargetY > text.position.y && sceneFinished === false) {
