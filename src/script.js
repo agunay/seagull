@@ -213,7 +213,7 @@ const buildFont = () => {
         '/fonts/typeface/sigmarone_regular.typeface.json',
         (font) => {
             const textGeometry = new THREE.TextGeometry(
-                '    Pledge to\n#LeaveNoTrace',
+                '#LeaveNoTrace',
                 {
                     font: font,
                     size: 5,
@@ -226,7 +226,10 @@ const buildFont = () => {
                     bevelSegments: 5
                 }
             );
-            const textMaterial = new THREE.MeshBasicMaterial({color: '#eae2b7'});
+            const textMaterial = new THREE.MeshBasicMaterial({
+                color: '#617764', 
+                transparent: true
+            });
             text = new THREE.Mesh(textGeometry, textMaterial);
             text.rotation.set(0, -210, 0);
             text.position.set(-15, 30, 20);
@@ -309,14 +312,10 @@ const animate = () => {
         water.material.uniforms['time'].value += 1.0 / 80.0;
     
         if (text) {
-            if (textClicked && text.position.y > -20) {
-                // Floating text
-                text.position.y -= 0.1;
-                text.rotation.x = Math.sin( time ) * 0.3;
-                text.position.z = Math.sin( time ) * 0.3;
-    
+            if (textClicked && text.material.opacity >= 0) {   
                 // Text colour lerp
-                text.material.color.set(text.material.color.lerp(new THREE.Color('#203d3f'), 0.01));
+                text.material.color.set(text.material.color.lerp(new THREE.Color('#a19362'), 0.01));
+                text.material.opacity -= 0.0025;
     
                 // Move camera target
                 if (controlTargetY > text.position.y && sceneFinished === false) {
@@ -334,8 +333,9 @@ const animate = () => {
             }
             
             // Scroll down to the pledge
-            else if (textClicked && text.position.y < -20 && !sceneFinished) {
-                document.getElementById('container').scrollIntoView({ behavior: 'smooth', block: 'end' });
+            else if (textClicked && text.material.opacity < 0.3 && !sceneFinished) {
+                // document.getElementById('container').scrollIntoView({ behavior: 'smooth', block: 'end' });
+                document.querySelector('.arrows').style.display = 'initial';
                 textClicked = false;
                 sceneFinished = true;
             }
