@@ -59,10 +59,10 @@ const calculateLayout = () => {
 };
 
 const createEventListeners = () => {
-    window.addEventListener('load', (e) => {
-        const image = document.getElementById('west-pier-image');
-        image.src = '/images/west-pier-black.png';
-    });
+    // window.addEventListener('load', (e) => {
+    //     const image = document.getElementById('west-pier-image');
+    //     image.src = '/images/west-pier-black.png';
+    // });
 
     window.addEventListener('resize', () => {
         window.location.href = window.location.href
@@ -155,6 +155,16 @@ const buildSky = () => {
     skyUniforms['mieDirectionalG'].value = 0.8;
 };
 
+const buildPier = () => {
+    const map = new THREE.TextureLoader().load("/images/west-pier-black.png");
+    const material = new THREE.SpriteMaterial( { map: map, color: 0xffffff, opacity: 0.6 } );
+    const sprite = new THREE.Sprite( material );
+    sprite.scale.set(300, 150, 0);
+    sprite.position.set(-60, 55, 550);
+    scene.add( sprite );
+    console.log(model);
+}
+
 const addAssets = () => {
     // Clear the scene
     if (sceneLoaded && reloadRequested) {
@@ -190,6 +200,7 @@ const addAssets = () => {
 const buildAssets = () => {
     model = new THREE.Group();
     buildModels();
+    buildPier();
     // buildFont();
 };
 

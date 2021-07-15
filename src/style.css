@@ -23,7 +23,7 @@ body {
 }
 .west-pier {
 	position: absolute;
-	top: 40px;
+	bottom: 50%;
 	right: 20px;
 	z-index: 3;
 }
