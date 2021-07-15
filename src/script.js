@@ -9,7 +9,7 @@ import * as dat from 'dat.gui';
 let canvas, spinnerBackground, spinner;
 let camera, scene, renderer, pmremGenerator;
 let controls, water, sun, sky, model, text;
-let textClicked = false;
+let animationStarted = false;
 
 let controlTargetX = -30, controlTargetY = 10, controlTargetZ = 0;
 
@@ -38,7 +38,7 @@ const calculateLayout = () => {
         parameters.modelPosition = new THREE.Vector3(3, 3, 3);
         parameters.azimuth = 35;
         parameters.distortionScale = 14;
-        parameters.distortionSize = 3;
+        parameters.distortionSize = 0.25;
     }
     
     else if (isMobile) {
@@ -46,27 +46,33 @@ const calculateLayout = () => {
         parameters.modelPosition = new THREE.Vector3(-12, 3, 3);
         parameters.azimuth = 30;
         parameters.distortionScale = 12;
-        parameters.distortionSize = 3;
+        parameters.distortionSize = 0.25;
     }
 
     else {
         parameters.modelScale = 1;
         parameters.modelPosition = new THREE.Vector3(3, 3, 3);
         parameters.azimuth = 40;
-        parameters.distortionScale = 20;
-        parameters.distortionSize = 3;
+        parameters.distortionScale = 5;
+        parameters.distortionSize = 0.25;
     }
 };
 
 const createEventListeners = () => {
-    window.addEventListener('click', (e) => {
-        e.preventDefault();
-        textClicked = true;
-    });
+    // window.addEventListener('load', (e) => {
+    //     setTimeout(() => {
+    //         animationStarted = true;
+    //     }, 2000);
+    // });
 
-    window.addEventListener('touchstart', (e) => {
-        textClicked = true;
-    });
+    // window.addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     animationStarted = true;
+    // });
+
+    // window.addEventListener('touchstart', (e) => {
+    //     animationStarted = true;
+    // });
 
     window.addEventListener('resize', () => {
         window.location.href = window.location.href
@@ -143,6 +149,7 @@ const buildWater = () => {
         }
     );
 
+    water.material.uniforms.size.value = parameters.distortionSize;
     water.rotation.x = -Math.PI / 2;
 };
 
@@ -177,6 +184,10 @@ const addAssets = () => {
         scene.add(water);
 
         sceneLoaded = true;
+
+        setTimeout(() => {
+            animationStarted = true;
+        }, 5000);
     }
 
     else if (sceneLoaded) {
@@ -227,16 +238,18 @@ const buildFont = () => {
                     bevelThickness: 0.03,
                     bevelSize: 0.02,
                     bevelOffset: 0,
-                    bevelSegments: 5
+                    bevelSegments: 5,
                 }
             );
             const textMaterial = new THREE.MeshBasicMaterial({
                 color: '#000000', 
-                transparent: true
+                transparent: true,
             });
             text = new THREE.Mesh(textGeometry, textMaterial);
+            text.castShadow = false;
+            text.receiveShadow = false;
             text.rotation.set(0, -210, 0);
-            text.position.set(-15, 30, 20);
+            text.position.set(-15, 35, 20);
             text.name = 'text';
             model.add(text);
             fontLoaded = true;
@@ -281,7 +294,7 @@ const buildFont = () => {
 
 //     const folderWater = gui.addFolder('Water');
 //     folderWater.add(waterUniforms.distortionScale, 'value', 0, 40, 0.1).name('distortionScale');
-//     folderWater.add(waterUniforms.size, 'value', 0.1, 10, 0.1).name('size');
+//     folderWater.add(waterUniforms.size, 'value', 0.1, 10, 0.001).name('size');
 //     folderWater.open();
 // };
 
@@ -313,10 +326,10 @@ const animate = () => {
         const time = performance.now() * 0.001;
 
         // Water distortion
-        water.material.uniforms['time'].value += 1.0 / 80.0;
+        water.material.uniforms['time'].value += 1.0 / 200.0;
     
         if (text) {
-            if (textClicked && text.material.opacity >= 0) {   
+            if (animationStarted && text.material.opacity >= 0.3) {   
                 // Text colour lerp
                 // text.material.color.set(text.material.color.lerp(new THREE.Color('#a19362'), 0.01));
                 text.material.opacity -= 0.0015;
@@ -336,11 +349,11 @@ const animate = () => {
                 }
             }
             
-            // Scroll down to the pledge
-            else if (textClicked && text.material.opacity < 0.3 && !sceneFinished) {
+            // Scene ready
+            else if (animationStarted && text.material.opacity < 0.3 && !sceneFinished) {
                 // document.getElementById('container').scrollIntoView({ behavior: 'smooth', block: 'end' });
                 document.querySelector('.arrows').style.display = 'initial';
-                textClicked = false;
+                animationStarted = false;
                 sceneFinished = true;
             }
         }
