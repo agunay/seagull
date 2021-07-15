@@ -21,8 +21,13 @@ body {
     -webkit-animation-duration: 12s;animation-duration: 12s;
     -webkit-animation-fill-mode: both;animation-fill-mode: both;
 }
+.west-pier {
+	position: absolute;
+	top: 40px;
+	right: 20px;
+	z-index: 3;
+}
 canvas {
-    cursor: pointer;
     position: absolute;
     top: 0;
     -webkit-animation-duration: 12s;animation-duration: 12s;
