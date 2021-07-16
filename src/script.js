@@ -34,7 +34,6 @@ let isTablet = sizes.width > 480 && sizes.width < 1024;
 
 const calculateLayout = () => {
     if (isMobile) {
-        console.log('mobile');
         parameters.modelScale = 0.5;
         parameters.modelPosition = new THREE.Vector3(-12, 3, 3);
         parameters.azimuth = 30;
@@ -43,7 +42,6 @@ const calculateLayout = () => {
     }
 
     else if (isTablet) {
-        console.log('tablet');
         parameters.modelScale = 0.75;
         parameters.modelPosition = new THREE.Vector3(3, 3, 3);
         parameters.azimuth = 35;
@@ -52,7 +50,6 @@ const calculateLayout = () => {
     }
 
     else {
-        console.log('desktop');
         parameters.modelScale = 1;
         parameters.modelPosition = new THREE.Vector3(3, 3, 3);
         parameters.azimuth = 40;
@@ -62,11 +59,6 @@ const calculateLayout = () => {
 };
 
 const createEventListeners = () => {
-    // window.addEventListener('load', (e) => {
-    //     const image = document.getElementById('west-pier-image');
-    //     image.src = '/images/west-pier-black.png';
-    // });
-
     window.addEventListener('resize', () => {
         window.location.href = window.location.href
     });
@@ -86,7 +78,6 @@ const sceneSetup = () => {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(sizes.width, sizes.height);
     renderer.toneMapping = THREE.NoToneMapping;
-    // renderer.toneMappingExposure = 2;
 
     pmremGenerator = new THREE.PMREMGenerator(renderer);
 
@@ -96,10 +87,6 @@ const sceneSetup = () => {
     camera.position.set(-60, 20, -100);
     
     controls = new OrbitControls(camera, canvas);
-    // controls.minPolarAngle = Math.PI * 0.495;
-    // controls.maxPolarAngle = Math.PI * 0.495;
-    // controls.minDistance = 40.0;
-    // controls.maxDistance = 200.0;
     controls.target.set(controlTargetX, controlTargetY, controlTargetZ);
     controls.enabled = false;
     controls.update();
@@ -195,7 +182,6 @@ const buildAssets = () => {
     model = new THREE.Group();
     buildModels();
     buildPier();
-    // buildFont();
 };
 
 const buildModels = () => {
@@ -270,11 +256,9 @@ const animate = () => {
     addAssets();
 
     if (sceneLoaded) {
-        // Water distortion
         water.material.uniforms['time'].value += 1.0 / 200.0;
     
         if (animationStarted && parameters.elevation < 3.5) {             
-            // Rising sun
             parameters.elevation += 0.005;
             parameters.azimuth -= 0.005;
             buildSun();
