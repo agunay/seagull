@@ -1,7 +1,98 @@
 @font-face {
-    font-family: customFont;
+    font-family: Urbanist-Regular;
     src: url(../static/fonts/Urbanist/Urbanist-Regular.ttf);
 }
+@font-face {
+    font-family: Urbanist-Bold;
+    src: url(../static/fonts/Urbanist/Urbanist-Bold.ttf);
+}
+@font-face {
+    font-family: Urbanist-ExtraBold;
+    src: url(../static/fonts/Urbanist/Urbanist-ExtraBold.ttf);
+}
+@font-face {
+    font-family: Urbanist-Black;
+    src: url(../static/fonts/Urbanist/Urbanist-Black.ttf);
+}
+
+@media (max-width: 480px) {
+	#content {
+		margin: 12px;
+		padding: 12px;
+	}
+	#content h1 {
+		font-size: 48px;
+	}
+	#content h2 {
+		font-size: 22px;
+	}	
+	#content h3 {
+		font-size: 22px;
+	}	
+	#content p {
+		font-size: 20px;
+	}	
+	#content #pledge {
+		margin: 36px auto;
+		padding: 12px;
+	}
+	.text-content {
+		width: 98%
+	}
+}
+@media (min-width: 481px) and (max-width: 1024px) {
+	#content {
+		margin: 12px;
+		padding: 12px;
+	}
+	#content h1 {
+		font-size: 50px;
+	}
+	#content h2 {
+		font-size: 28px;
+	}	
+	#content h3 {
+		font-size: 28px;
+	}	
+	#content p {
+		font-size: 24px;
+	}	
+	#content #pledge {
+		width: 90%;
+		margin: 36px auto;
+		padding: 16px;
+	}
+	.text-content {
+		width: 90%
+	}
+}
+@media (min-width: 1025px) {
+	#content {
+		margin: 24px;
+		padding: 24px;
+	}
+	#content h1 {
+		font-size: 64px;
+	}
+	#content h2 {
+		font-size: 36px;
+	}	
+	#content h3 {
+		font-size: 36px;
+	}	
+	#content p {
+		font-size: 28px;
+	}	
+	#content #pledge {
+		width: 80%;
+		margin: 64px auto;
+		padding: 16px;
+	}
+	.text-content {
+		width: 80%
+	}
+}
+
 html, body {
     margin: 0;
     overflow-x: hidden;
@@ -9,7 +100,7 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    font-family: customFont;
+    font-family: Urbanist-Regular;
 }
 body {
     overflow: hidden;
@@ -38,32 +129,22 @@ canvas {
     min-height: 100vh;
 }
 .text-content {
-    width: 78%;
     margin: 0 auto;
 }
 #content {
-    margin: 24px;
-    padding: 24px;
     text-align: center;
     color: #eae2b7;
+	max-width: 1600px;
+	margin: 0 auto;
 }
 #content h1 {
-    font-size: 64px;
     color: #fcbf49;
-}
-#content h2 {
-    font-size: 32px;
+	font-family: Urbanist-ExtraBold;
 }
 #content h3 {
-    font-size: 24px;
-}
-#content p {
-    font-size: 24px;
+	font-family: Urbanist-Black;
 }
 #content #pledge {
-    width: 80%;
-    margin: 64px auto;
-    padding: 16px;
     border-radius: 20px;
     background-color: #fcbf49;
     color: #284245;
