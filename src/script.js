@@ -13,7 +13,7 @@ let animationStarted = false;
 
 let controlTargetX = -30, controlTargetY = 10, controlTargetZ = 0;
 
-let modelsLoaded = false, sceneLoaded = false, reloadRequested = false, sceneFinished = false;
+let modelsLoaded = false, sceneLoaded = false, sceneFinished = false;
 
 const parameters = {
     logoScale: undefined,
@@ -67,7 +67,7 @@ const calculateLayout = () => {
 };
 
 const createEventListeners = () => {
-    window.addEventListener('resize', () => {
+    window.addEventListener('orientationchange', () => {
         window.location.href = window.location.href
     });
 }
@@ -154,16 +154,6 @@ const buildSky = () => {
 };
 
 const addAssets = () => {
-    // Clear the scene
-    if (sceneLoaded && reloadRequested) {
-        while(scene.children.length > 0){ 
-            scene.remove(scene.children[0]); 
-        }
-        reloadRequested = false;
-        sceneLoaded = false;
-    }
-
-    // Add scene children
     if (modelsLoaded && !sceneLoaded) {
         model.scale.set(parameters.modelScale, parameters.modelScale, parameters.modelScale);
 
@@ -178,7 +168,7 @@ const addAssets = () => {
         }, 5000);
     }
 
-    else if (sceneLoaded) {
+    else if (sceneLoaded && !sceneFinished) {
         canvas.classList.add('fadeIn');
         spinnerBackground.classList.add('fadeOut');
         spinner.classList.add('fadeOut');
