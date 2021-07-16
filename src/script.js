@@ -8,15 +8,17 @@ import * as dat from 'dat.gui';
 
 let canvas, spinnerBackground, spinner;
 let camera, scene, renderer, pmremGenerator;
-let controls, water, sun, sky, model, pier;
+let controls, water, sun, sky, model;
 let animationStarted = false;
 
 let controlTargetX = -30, controlTargetY = 10, controlTargetZ = 0;
 
-let modelsLoaded = false, pierLoaded = false, sceneLoaded = false, reloadRequested = false, sceneFinished = false;
+let modelsLoaded = false, sceneLoaded = false, reloadRequested = false, sceneFinished = false;
 
 const parameters = {
+    logoScale: undefined,
     modelScale: undefined,
+    logoPosition: undefined,
     modelPosition: undefined,
     elevation: -1,
     azimuth: undefined,
@@ -30,19 +32,23 @@ const sizes = {
 }
 
 let isMobile = sizes.width <= 480;
-let isTablet = sizes.width > 480 && sizes.width < 1024;
+let isTablet = sizes.width > 480 && sizes.width <= 1024;
 
 const calculateLayout = () => {
     if (isMobile) {
+        parameters.logoScale = 120;
         parameters.modelScale = 0.5;
-        parameters.modelPosition = new THREE.Vector3(-12, 3, 3);
+        parameters.logoPosition =  new THREE.Vector3(30, 20, 400);
+        parameters.modelPosition = new THREE.Vector3(-10, 3, 3);
         parameters.azimuth = 30;
         parameters.distortionScale = 12;
         parameters.distortionSize = 0.25;
     }
 
     else if (isTablet) {
+        parameters.logoScale = 100;
         parameters.modelScale = 0.75;
+        parameters.logoPosition =  new THREE.Vector3(-24, 16, 240);
         parameters.modelPosition = new THREE.Vector3(3, 3, 3);
         parameters.azimuth = 35;
         parameters.distortionScale = 14;
@@ -50,7 +56,9 @@ const calculateLayout = () => {
     }
 
     else {
+        parameters.logoScale = 100;
         parameters.modelScale = 1;
+        parameters.logoPosition =  new THREE.Vector3(-60, 16, 180);
         parameters.modelPosition = new THREE.Vector3(3, 3, 3);
         parameters.azimuth = 40;
         parameters.distortionScale = 12;
@@ -156,12 +164,11 @@ const addAssets = () => {
     }
 
     // Add scene children
-    if (modelsLoaded && pierLoaded && !sceneLoaded) {
+    if (modelsLoaded && !sceneLoaded) {
         model.scale.set(parameters.modelScale, parameters.modelScale, parameters.modelScale);
 
         scene.add(sky);
         scene.add(model);
-        scene.add(pier);
         scene.add(water);
 
         sceneLoaded = true;
@@ -181,36 +188,32 @@ const addAssets = () => {
 const buildAssets = () => {
     model = new THREE.Group();
     buildModels();
-    buildPier();
 };
 
 const buildModels = () => {
     const gltfLoader = new GLTFLoader();
 
-    gltfLoader.load('models/rock/scene.gltf', (rock) => {
-        model.add(rock.scene);
+    gltfLoader.load('models/logo/logo_.glb', (logo) => {
+        logo.scene.scale.set(parameters.logoScale, parameters.logoScale, 0);
+        logo.scene.rotation.set(0, Math.PI, 0);
+        logo.scene.position.set(parameters.logoPosition.x, parameters.logoPosition.y, parameters.logoPosition.z);
+        model.add(logo.scene);
 
-        gltfLoader.load('models/seagull/scene.gltf', (seagull) => {
-            const scale = 8;
-            seagull.scene.scale.set(scale,scale, scale);
-            seagull.scene.position.set(3, 14, 0);
-            model.add(seagull.scene);
-            
-            model.position.set(parameters.modelPosition.x, parameters.modelPosition.y, parameters.modelPosition.z);
-            modelsLoaded = true;            
+        gltfLoader.load('models/rock/scene.gltf', (rock) => {
+            model.add(rock.scene);
+    
+            gltfLoader.load('models/seagull/scene.gltf', (seagull) => {
+                const scale = 8;
+                seagull.scene.scale.set(scale,scale, scale);
+                seagull.scene.position.set(3, 14, 0);
+                model.add(seagull.scene);
+                
+                model.position.set(parameters.modelPosition.x, parameters.modelPosition.y, parameters.modelPosition.z);
+                modelsLoaded = true;            
+            });
         });
     });
 };
-
-const buildPier = () => {
-    new THREE.TextureLoader().load("/images/west-pier-black.png", (image) => {
-        const material = new THREE.SpriteMaterial( { map: image, color: 0xffffff, opacity: 0.75 } );
-        pier = new THREE.Sprite( material );
-        pier.scale.set(300, 150, 0);
-        pier.position.set(-60, 50, 550);
-        pierLoaded = true;
-    });
-}
 
 // const buildGUI = () => {
 //     const gui = new dat.GUI();
