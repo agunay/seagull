@@ -8,17 +8,17 @@ import * as dat from 'dat.gui';
 
 let canvas, spinnerBackground, spinner;
 let camera, scene, renderer, pmremGenerator;
-let controls, water, sun, sky, model, text;
+let controls, water, sun, sky, model, pier;
 let animationStarted = false;
 
 let controlTargetX = -30, controlTargetY = 10, controlTargetZ = 0;
 
-let modelsLoaded = false, fontLoaded = false, sceneLoaded = false, reloadRequested = false, sceneFinished = false;
+let modelsLoaded = false, pierLoaded = false, sceneLoaded = false, reloadRequested = false, sceneFinished = false;
 
 const parameters = {
     modelScale: undefined,
     modelPosition: undefined,
-    elevation: -3,
+    elevation: -1,
     azimuth: undefined,
     distortionScale: undefined,
     distortionSize: undefined
@@ -29,19 +29,12 @@ const sizes = {
     height: window.innerHeight
 }
 
-let isTablet = sizes.width > 400 && sizes.width < 800;
-let isMobile = sizes.width <= 400;
+let isMobile = sizes.width <= 480;
+let isTablet = sizes.width > 480 && sizes.width < 1024;
 
 const calculateLayout = () => {
-    if (isTablet) {
-        parameters.modelScale = 0.75;
-        parameters.modelPosition = new THREE.Vector3(3, 3, 3);
-        parameters.azimuth = 35;
-        parameters.distortionScale = 14;
-        parameters.distortionSize = 0.25;
-    }
-    
-    else if (isMobile) {
+    if (isMobile) {
+        console.log('mobile');
         parameters.modelScale = 0.5;
         parameters.modelPosition = new THREE.Vector3(-12, 3, 3);
         parameters.azimuth = 30;
@@ -49,29 +42,29 @@ const calculateLayout = () => {
         parameters.distortionSize = 0.25;
     }
 
+    else if (isTablet) {
+        console.log('tablet');
+        parameters.modelScale = 0.75;
+        parameters.modelPosition = new THREE.Vector3(3, 3, 3);
+        parameters.azimuth = 35;
+        parameters.distortionScale = 14;
+        parameters.distortionSize = 0.25;
+    }
+
     else {
+        console.log('desktop');
         parameters.modelScale = 1;
         parameters.modelPosition = new THREE.Vector3(3, 3, 3);
         parameters.azimuth = 40;
-        parameters.distortionScale = 5;
+        parameters.distortionScale = 12;
         parameters.distortionSize = 0.25;
     }
 };
 
 const createEventListeners = () => {
     // window.addEventListener('load', (e) => {
-    //     setTimeout(() => {
-    //         animationStarted = true;
-    //     }, 2000);
-    // });
-
-    // window.addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     animationStarted = true;
-    // });
-
-    // window.addEventListener('touchstart', (e) => {
-    //     animationStarted = true;
+    //     const image = document.getElementById('west-pier-image');
+    //     image.src = '/images/west-pier-black.png';
     // });
 
     window.addEventListener('resize', () => {
@@ -176,11 +169,12 @@ const addAssets = () => {
     }
 
     // Add scene children
-    if (modelsLoaded && fontLoaded && !sceneLoaded) {
+    if (modelsLoaded && pierLoaded && !sceneLoaded) {
         model.scale.set(parameters.modelScale, parameters.modelScale, parameters.modelScale);
 
         scene.add(sky);
         scene.add(model);
+        scene.add(pier);
         scene.add(water);
 
         sceneLoaded = true;
@@ -200,7 +194,8 @@ const addAssets = () => {
 const buildAssets = () => {
     model = new THREE.Group();
     buildModels();
-    buildFont();
+    buildPier();
+    // buildFont();
 };
 
 const buildModels = () => {
@@ -221,62 +216,15 @@ const buildModels = () => {
     });
 };
 
-const buildFont = () => {
-    const fontLoader = new THREE.FontLoader();
-
-    fontLoader.load(
-        '/fonts/Urbanist/Urbanist_Bold.typeface.json',
-        (font) => {
-            const textGeometry = new THREE.TextGeometry(
-                '#LeaveNoTrace',
-                {
-                    font: font,
-                    size: 8,
-                    height: 0.05,
-                    curveSegments: 12,
-                    bevelEnabled: true,
-                    bevelThickness: 0.03,
-                    bevelSize: 0.02,
-                    bevelOffset: 0,
-                    bevelSegments: 5,
-                }
-            );
-            const textMaterial = new THREE.MeshBasicMaterial({
-                color: '#000000', 
-                transparent: true,
-            });
-            text = new THREE.Mesh(textGeometry, textMaterial);
-            text.castShadow = false;
-            text.receiveShadow = false;
-            text.rotation.set(0, -210, 0);
-            text.position.set(-15, 35, 20);
-            text.name = 'text';
-            model.add(text);
-            fontLoaded = true;
-        });
-};
-
-// const buildSounds = () => {
-//     const listener = new THREE.AudioListener();
-//     const sound = new THREE.Audio(listener);    
-//     const audioLoader = new THREE.AudioLoader();
-    
-//     camera.add(listener);
-    
-//     const playSound = () => {
-//         audioLoader.load('/sounds/seagull-sounds.mp3', (buffer) => {
-//             sound.setBuffer(buffer);
-//             sound.setLoop(true);
-//             sound.play();
-//         });
-//     }
-
-//     window.addEventListener('click', () => {
-//         if (!sound.isPlaying) {
-//             playSound();       
-//         }
-//     });   
-// };
+const buildPier = () => {
+    new THREE.TextureLoader().load("/images/west-pier-black.png", (image) => {
+        const material = new THREE.SpriteMaterial( { map: image, color: 0xffffff, opacity: 0.75 } );
+        pier = new THREE.Sprite( material );
+        pier.scale.set(300, 150, 0);
+        pier.position.set(-60, 50, 550);
+        pierLoaded = true;
+    });
+}
 
 // const buildGUI = () => {
 //     const gui = new dat.GUI();
@@ -313,7 +261,6 @@ const init = async () => {
     buildSun();
     buildAssets();
 
-    // buildSounds();
     // buildGUI();
 
     createEventListeners();
@@ -323,40 +270,22 @@ const animate = () => {
     addAssets();
 
     if (sceneLoaded) {
-        const time = performance.now() * 0.001;
-
         // Water distortion
         water.material.uniforms['time'].value += 1.0 / 200.0;
     
-        if (text) {
-            if (animationStarted && text.material.opacity >= 0.3) {   
-                // Text colour lerp
-                // text.material.color.set(text.material.color.lerp(new THREE.Color('#a19362'), 0.01));
-                text.material.opacity -= 0.0015;
-    
-                // Move camera target
-                if (controlTargetY > text.position.y && sceneFinished === false) {
-                    controlTargetY = text.position.y;
-                    controls.target.set(controlTargetX, controlTargetY, controlTargetZ);
-                    controls.update();
-                }
-    
-                // Rising sun
-                if (parameters.elevation < 3.5) {
-                    parameters.elevation += 0.015;
-                    parameters.azimuth -= 0.005;
-                    buildSun();
-                }
-            }
-            
-            // Scene ready
-            else if (animationStarted && text.material.opacity < 0.3 && !sceneFinished) {
-                // document.getElementById('container').scrollIntoView({ behavior: 'smooth', block: 'end' });
-                document.querySelector('.arrows').style.display = 'initial';
-                animationStarted = false;
-                sceneFinished = true;
-            }
+        if (animationStarted && parameters.elevation < 3.5) {             
+            // Rising sun
+            parameters.elevation += 0.005;
+            parameters.azimuth -= 0.005;
+            buildSun();
         }
+        
+        else if (animationStarted && !sceneFinished && parameters.elevation >= 3.5) {
+            document.querySelector('.arrows').style.display = 'initial';
+            animationStarted = false;
+            sceneFinished = true;
+        }
+
     }
 
     renderer.render(scene, camera);
