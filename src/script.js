@@ -67,8 +67,21 @@ const calculateLayout = () => {
 };
 
 const createEventListeners = () => {
+    window.addEventListener('load', (e) => {
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0,0);
+    });
+
     window.addEventListener('orientationchange', () => {
-        window.location.href = window.location.href
+        window.location.href = window.location.href;
+    });
+
+    const checkbox = document.querySelector('#pledge-checkbox');
+    const button = document.querySelector('#pledge-button');
+    checkbox.addEventListener('change', (e) => {
+        checkbox.checked ? button.disabled = false : button.disabled = true;
     });
 }
 
@@ -226,12 +239,7 @@ const buildModels = () => {
 // };
 
 const init = async () => {
-    window.addEventListener('load', (e) => {
-        if ('scrollRestoration' in history) {
-            history.scrollRestoration = 'manual';
-        }
-        window.scrollTo(0,0);
-    });
+    createEventListeners();
 
     sceneSetup();
 
@@ -241,8 +249,6 @@ const init = async () => {
     buildAssets();
 
     // buildGUI();
-
-    createEventListeners();
 };
 
 const animate = () => {
