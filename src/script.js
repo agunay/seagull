@@ -80,9 +80,39 @@ const createEventListeners = () => {
 
     const checkbox = document.querySelector('#pledge-checkbox');
     const button = document.querySelector('#pledge-button');
+    const modal = document.querySelector('#success-modal');
+    const modalClose = document.querySelector('#modal-close');
+    const content = document.querySelector('#content');
+
     checkbox.addEventListener('change', (e) => {
         checkbox.checked ? button.disabled = false : button.disabled = true;
     });
+
+    button.addEventListener('click', () => {
+        checkbox.checked = false;
+        button.disabled = true;
+        modal.style.display = "block";
+        console.log(content.classList);
+        if (!content.classList.contains('blurred')) {
+            content.classList.add('blurred');
+        }
+    });
+
+    modalClose.onclick = function() {
+        modal.style.display = "none";
+        if (content.classList.contains('blurred')) {
+            content.classList.remove('blurred');
+        }
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            if (content.classList.contains('blurred')) {
+                content.classList.remove('blurred');
+            }
+        }
+      }
 }
 
 const sceneSetup = () => {

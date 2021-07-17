@@ -39,6 +39,24 @@
 	.text-content {
 		width: 98%
 	}
+	#success-modal {
+		padding-top: 10vh;
+	}
+	.modal-content {
+		width: 80vw;
+		height: 80vh;
+	}
+	.modal-body {
+		padding: 20% 10%;
+		width: 80%;
+		height: 80%;
+	}
+	.modal-content h1 {
+		font-size: 48px;
+	}
+	.modal-content p {
+		font-size: 20px;
+	}
 }
 @media (min-width: 481px) and (max-width: 1024px) {
 	#content {
@@ -65,6 +83,27 @@
 	.text-content {
 		width: 90%
 	}
+	#success-modal {
+		padding-top: 20vh;
+	}
+	.modal-content {
+		width: 60vw;
+		height: 50vh;
+	}
+	.modal-body {
+		padding: 20% 10%;
+		width: 80%;
+		height: 60%;
+	}
+	#success-modal {
+		padding-top: 25vh;
+	}
+	.modal-content h1 {
+		font-size: 48px;
+	}
+	.modal-content p {
+		font-size: 24px;
+	}
 }
 @media (min-width: 1025px) {
 	#content {
@@ -90,6 +129,21 @@
 	}
 	.text-content {
 		width: 80%
+	}
+	.modal-content {
+		width: 60vw;
+		height: 40vh;
+	}
+	.modal-body {
+		padding: 10%;
+		width: 80%;
+		height: 60%;
+	}
+	.modal-content h1 {
+		font-size: 48px;
+	}
+	.modal-content p {
+		font-size: 24px;
 	}
 }
 
@@ -196,36 +250,10 @@ canvas {
 .counter-text {
 	display: inline;
 }
-/* ----- FADE IN/OUT ----- */
-@-webkit-keyframes fadeIn {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
- }
- 
-@keyframes fadeIn {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+.blurred {
+	filter: blur(5px);
+	-webkit-filter: blur(5px);
 }
-
-@-webkit-keyframes fadeOut {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
- }
- 
- @keyframes fadeOut {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
- }
-
- .fadeIn {
-    -webkit-animation-name: fadeIn;
-    animation-name: fadeIn;
- }
-
- .fadeOut {
-    -webkit-animation-name: fadeOut;
-    animation-name: fadeOut;
- }
 
 /* ----- DOWN ARROW ----- */
 .arrows {
@@ -281,6 +309,66 @@ canvas {
     100% { 
         opacity: 0;
     }
+}
+
+/* MODAL */
+/* The Modal (background) */
+#success-modal {
+	display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+}
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    border: 2px solid #155839;
+    border-radius: 20px;
+    background-color: #f1f9f0;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+.modal-content h1 {
+	font-family: Urbanist-ExtraBold;
+}
+.modal-content p {
+	font-family: Urbanist-Regular;
+}
+#modal-close {
+    color: black;
+    position: absolute;
+    top: 0;
+    right: 24px;
+    font-size: 44px;
+    font-weight: bold;
+}
+#modal-close:hover,
+#modal-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+@-webkit-keyframes animatetop {
+	from {top:-300px; opacity:0} 
+	to {top:0; opacity:1}
+}
+@keyframes animatetop {
+	from {top:-300px; opacity:0}
+	to {top:0; opacity:1}
 }
 
 /* ----- SPINNER ----- */
@@ -544,3 +632,34 @@ input[type="checkbox"]:focus + label {
 		tranform: scale(1);
 	}
 }
+
+/* ----- FADE IN/OUT ----- */
+@-webkit-keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+ }
+ 
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+@-webkit-keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+ }
+ 
+ @keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+ }
+
+ .fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+ }
+
+ .fadeOut {
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+ }
