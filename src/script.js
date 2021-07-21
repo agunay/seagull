@@ -5,7 +5,23 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Water } from 'three/examples/jsm/objects/Water';
 import { Sky } from 'three/examples/jsm/objects/Sky';
 import * as dat from 'dat.gui';
+import firebase from "firebase/app";
+import "firebase/firestore";
 
+const firebaseConfig = {
+    apiKey: "AIzaSyCsjWceUHIg1-rvehDkJPS-Y9B7kXOyNtA",
+    authDomain: "leave-no-trace.firebaseapp.com",
+    databaseURL: "https://leave-no-trace-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "leave-no-trace",
+    storageBucket: "leave-no-trace.appspot.com",
+    messagingSenderId: "457637248324",
+    appId: "1:457637248324:web:705aa20f5c9f4d0f4b2b11"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const countRef = db.collection("pledges").doc("count");
+
+let pledgeCount = 0;
 let canvas, spinnerBackground, spinner;
 let camera, scene, renderer, pmremGenerator;
 let controls, water, sun, sky, model;
@@ -72,6 +88,15 @@ const createEventListeners = () => {
             history.scrollRestoration = 'manual';
         }
         window.scrollTo(0,0);
+        // setPledgeCount();
+        countRef.get().then((doc) => {
+            if (doc.exists) {
+                pledgeCount = doc.data().pledgeCount;
+                document.querySelector('#counter').innerHTML = doc.data().pledgeCount;
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
     });
 
     window.addEventListener('orientationchange', () => {
@@ -89,10 +114,26 @@ const createEventListeners = () => {
     });
 
     button.addEventListener('click', () => {
+        // Increment counter
+        const now = new Date();
+
+        const pledgesRef = db.collection('pledges').doc(pledgeCount.toString());
+        const pledgeCountRef = db.collection('pledges').doc('count');
+        const increment = firebase.firestore.FieldValue.increment(1);
+        
+        const batch = db.batch();
+        batch.set(pledgesRef, { date: now.toString() });
+        batch.set(pledgeCountRef, { pledgeCount: increment }, { merge: true });
+        batch.commit();
+
+        // setPledgeCount();
+        pledgeCount++;
+        document.querySelector('#counter').innerHTML = pledgeCount;
+
+        // UI actions
         checkbox.checked = false;
         button.disabled = true;
         modal.style.display = "block";
-        console.log(content.classList);
         if (!content.classList.contains('blurred')) {
             content.classList.add('blurred');
         }
