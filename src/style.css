@@ -16,7 +16,7 @@
     src: url(../static/fonts/Urbanist/Urbanist-Black.ttf);
 }
 
-@media (max-width: 480px) {
+@media (orientation: portrait) and (max-width: 480px) {
 	#content {
 		margin: 12px;
 		padding: 12px;
@@ -48,30 +48,50 @@
 	}
 	#footer h1 {
 		font-size: 24px;
-	}	
-	#success-modal {
-		padding-top: 10vh;
 	}
 	.modal-content {
-		width: 80vw;
-		height: 80vh;
+		width: 85vw;
+		height: 60vh;
+		margin: 15vh auto;
 	}
 	.modal-body {
 		padding: 20% 10%;
 		width: 80%;
 		height: 80%;
 	}
-	.modal-content h1 {
+	.modal-body h1 {
 		font-size: 48px;
 	}
-	.modal-content p {
+	.modal-body p {
 		font-size: 20px;
 	}
+}
+@media (orientation: landscape) and (max-width: 850px) {
+	#content {
+		height: auto !important;
+	}
+	.modal-content {
+		width: 80vw !important;
+		height: 80vh !important;
+		margin: 10vh auto !important;
+	}
+	.modal-body {
+		padding: 5% 10% !important;
+		width: 80% !important;
+		height: 80% !important;
+	}
+	.modal-body h1 {
+		font-size: 48px !important;
+	}
+	.modal-body p {
+		font-size: 20px !important;
+	}	
 }
 @media (min-width: 481px) and (max-width: 1024px) {
 	#content {
 		margin: 12px;
 		padding: 12px;
+		height: calc(100vh - 50px);
 	}
 	#content h1 {
 		font-size: 50px;
@@ -97,26 +117,21 @@
 		padding: 0 25px;
 		height: 50px;
 		flex-direction: row;
-	}	
-	#success-modal {
-		padding-top: 20vh;
 	}
 	.modal-content {
 		width: 60vw;
-		height: 50vh;
+		height: 40vh;
+		margin: 30vh auto;
 	}
 	.modal-body {
 		padding: 20% 10%;
 		width: 80%;
 		height: 60%;
 	}
-	#success-modal {
-		padding-top: 25vh;
-	}
-	.modal-content h1 {
+	.modal-body h1 {
 		font-size: 48px;
 	}
-	.modal-content p {
+	.modal-body p {
 		font-size: 24px;
 	}
 }
@@ -152,17 +167,18 @@
 	}	
 	.modal-content {
 		width: 60vw;
-		height: 40vh;
+		height: 50vh;
+		margin: 25vh auto;
 	}
 	.modal-body {
 		padding: 10%;
 		width: 80%;
 		height: 60%;
 	}
-	.modal-content h1 {
+	.modal-body h1 {
 		font-size: 48px;
 	}
-	.modal-content p {
+	.modal-body p {
 		font-size: 24px;
 	}
 }
@@ -186,12 +202,6 @@ body {
     -webkit-animation-duration: 12s;animation-duration: 12s;
     -webkit-animation-fill-mode: both;animation-fill-mode: both;
 }
-.west-pier {
-	position: absolute;
-	bottom: 50%;
-	right: 20px;
-	z-index: 3;
-}
 canvas {
     position: absolute;
     top: 0;
@@ -208,8 +218,12 @@ canvas {
 #content {
     text-align: center;
     color: #eae2b7;
+	width: 90vw;
 	max-width: 1600px;
 	margin: 0 auto;
+	display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 #content h1 {
     color: #fcbf49;
@@ -239,9 +253,9 @@ canvas {
     border: 2px solid #fcbf49;
 }
 #pledge-button:disabled {
-    background-color: #9c9c9c;
-    border: 2px solid #585858;
-    color: #c7c7c7;
+	background-color: #b7b7b7;
+    border: 2px solid #8a8989;
+    color: #8a8989;
     font-family: Urbanist-Bold;
 	cursor:not-allowed;
 }
@@ -270,6 +284,9 @@ canvas {
 .counter-text {
 	display: inline;
 }
+
+/* ----- FOOTER ----- */
+
 #footer {
 	background-color: #fcbf49;
     position: sticky;
@@ -318,6 +335,8 @@ canvas {
 	-webkit-filter: blur(5px);
 }
 
+/* ----- END FOOTER ----- */
+
 /* ----- DOWN ARROW ----- */
 .arrows {
     display: none;
@@ -338,7 +357,6 @@ canvas {
 .arrow-second {
     animation: arrow-movement 2s 1s ease-in-out infinite;
 }
-
 .arrow:before,
 .arrow:after {
     background: #ffffdc;
@@ -350,17 +368,14 @@ canvas {
         left: 0;
     width: 30px;
 }
-
 .arrow:before {
     transform: rotate(45deg) translateX(-23%);
     transform-origin: top left;
 }
-
 .arrow:after {
     transform: rotate(-45deg) translateX(23%);
     transform-origin: top right;
 }
-
 @keyframes arrow-movement {
     0% { 
         opacity: 0;
@@ -374,8 +389,9 @@ canvas {
     }
 }
 
-/* MODAL */
-/* The Modal (background) */
+/* ----- END DOWN ARROW ----- */
+
+/* ----- MODAL ----- */
 #success-modal {
 	display: none;
     position: fixed;
@@ -388,11 +404,11 @@ canvas {
 }
 .modal-content {
     position: relative;
-    margin: auto;
     padding: 0;
     border: 2px solid #155839;
     border-radius: 20px;
-    background-color: #f1f9f0;
+    background-color: #d8efe5;
+    color: #284245;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -401,6 +417,9 @@ canvas {
 }
 .modal-content h1 {
 	font-family: Urbanist-ExtraBold;
+}
+.modal-content h3 {
+	font-family: Urbanist-Bold;
 }
 .modal-content p {
 	font-family: Urbanist-Regular;
@@ -434,6 +453,146 @@ canvas {
 	to {top:0; opacity:1}
 }
 
+/* ----- END MODAL ----- */
+
+/* ----- PLEDGE CTA ----- */
+
+:root {
+	--checkbox-size: 28px;
+    --bg-color: #fcbf49;
+    --checkbox-color: #f7e0b3;
+    --hover-color: #284245;
+    --tick-color: #436c71;
+}
+label {
+	display: inline-block;
+	margin: 0 calc(var(--checkbox-size) * 0.25);
+	width: var(--checkbox-size);
+	height: var(--checkbox-size);
+	border: calc(var(--checkbox-size) * 0.125) solid var(--checkbox-color);
+	border-radius: 12.5%;
+	-webkit-transition: 400ms 100ms ease-out;
+	-o-transition: 400ms 100ms ease-out;
+	transition: 400ms 100ms ease-out;
+	background-color: var(--bg-color);
+}
+input[type="checkbox"] {
+	position: absolute;
+	left: -1000px;
+}
+.tick {
+	position: relative;
+	right: calc(var(--checkbox-size) * -0.35);
+	top: calc(var(--checkbox-size) * -0.05);
+	width: calc(var(--checkbox-size) * 0.15);
+	height: calc(var(--checkbox-size) * 0.75);
+	border-right: calc(var(--checkbox-size) * 0.25) solid var(--tick-color);
+	border-bottom: calc(var(--checkbox-size) * 0.25) solid var(--tick-color);
+	-webkit-transform: rotate(45deg) scale(0);
+	    -ms-transform: rotate(45deg) scale(0);
+	        transform: rotate(45deg) scale(0);
+	opacity: 0;
+	-webkit-transition: all 600ms cubic-bezier(0.175, 0.885, 0.32, 1.5);
+	-o-transition: all 600ms cubic-bezier(0.175, 0.885, 0.32, 1.5);
+	transition: all 600ms cubic-bezier(0.175, 0.885, 0.32, 1.5);
+}
+.tick:before {
+	content: '';
+	position: absolute;
+	left: calc(var(--checkbox-size) * -0.125);
+	bottom: calc(var(--checkbox-size) * -0.25);
+	border: calc(var(--checkbox-size) * 0.125) solid var(--tick-color);
+	border-radius: 50%;
+}
+.tick:after {
+	content: '';
+	position: absolute;
+	right: calc(var(--checkbox-size) * -0.25);
+	top: calc(var(--checkbox-size) * -0.125);
+	border: calc(var(--checkbox-size) * 0.125) solid var(--tick-color);
+	border-radius: 50%;
+}
+input[type="checkbox"]:checked + label .tick {
+	opacity: 1;
+	-webkit-transform: rotate(45deg) scale(1);
+	    -ms-transform: rotate(45deg) scale(1);
+	        transform: rotate(45deg) scale(1);
+}
+input[type="checkbox"]:focus + label {
+	-webkit-animation-name: cb-pop;
+	        animation-name: cb-pop;
+	-webkit-animation-duration: 400ms;
+	        animation-duration: 400ms;
+	-webkit-animation-iteration-count: 1;
+	        animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+	        animation-timing-function: linear;
+}
+@-webkit-keyframes cb-pop {
+	0% {
+		-webkit-transform: scale(1);
+		        transform: scale(1);
+	}
+	33% {
+		-webkit-transform: scale(0.9);
+		        transform: scale(0.9);
+	}
+	66% {
+		-webkit-transform: scale(1.1);
+		        transform: scale(1.1);
+	}
+	100% {
+		tranform: scale(1);
+	}
+}
+@keyframes cb-pop {
+	0% {
+		-webkit-transform: scale(1);
+		        transform: scale(1);
+	}
+	33% {
+		-webkit-transform: scale(0.9);
+		        transform: scale(0.9);
+	}
+	66% {
+		-webkit-transform: scale(1.1);
+		        transform: scale(1.1);
+	}
+	100% {
+		tranform: scale(1);
+	}
+}
+
+/* ----- END PLEDGE CTA ----- */
+
+/* ----- FADE IN/OUT ----- */
+@-webkit-keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+@-webkit-keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+}
+.fadeOut {
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+}
+
+/* ----- END FADE IN/OUT ----- */
+
 /* ----- SPINNER ----- */
 .cssload-container *, .cssload-container *:before, .cssload-container *:after{
 	box-sizing: border-box;
@@ -442,7 +601,6 @@ canvas {
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 }
-
 .cssload-container {
 	margin: 45vh auto;
 	width: 113px;
@@ -450,7 +608,6 @@ canvas {
     -webkit-animation-duration: 2s;animation-duration: 2s;
     -webkit-animation-fill-mode: both;animation-fill-mode: both;
 }
-
 .cssload-container > div {
 	background: #ffffff;
 	height: 100%;
@@ -458,7 +615,6 @@ canvas {
 	margin-right: 2px;
 	display: inline-block;
 }
-
 .cssload-container .cssload-shaft1 {
 	animation-delay: 0.06s;
 		-o-animation-delay: 0.06s;
@@ -529,7 +685,6 @@ canvas {
 		-webkit-animation-delay: 0.58s;
 		-moz-animation-delay: 0.58s;
 }
-
 .cssload-container > div {
 	animation: cssload-loading 1.73s infinite ease-in-out;
 		-o-animation: cssload-loading 1.73s infinite ease-in-out;
@@ -542,37 +697,30 @@ canvas {
 		-webkit-transform: scaleY(0.05) translateX(-19px);
 		-moz-transform: scaleY(0.05) translateX(-19px);
 }
-
-
-
 @keyframes cssload-loading {
 	50% {
 		transform: scaleY(1.2) translateX(19px);
 		background: #ffffff;
 	}
 }
-
 @-o-keyframes cssload-loading {
 	50% {
 		-o-transform: scaleY(1.2) translateX(19px);
 		background: #ffffff;
 	}
 }
-
 @-ms-keyframes cssload-loading {
 	50% {
 		-ms-transform: scaleY(1.2) translateX(19px);
 		background: #ffffff;
 	}
 }
-
 @-webkit-keyframes cssload-loading {
 	50% {
 		-webkit-transform: scaleY(1.2) translateX(19px);
 		background: #ffffff;
 	}
 }
-
 @-moz-keyframes cssload-loading {
 	50% {
 		-moz-transform: scaleY(1.2) translateX(19px);
@@ -580,149 +728,4 @@ canvas {
 	}
 }
 
-/* PLEDGE CHECKBOX & BUTTON */
-:root {
-	--checkbox-size: 28px;
-    --bg-color: #fcbf49;
-    --checkbox-color: #f7e0b3;
-    --hover-color: #284245;
-    --tick-color: #436c71;
-}
-
-label {
-	display: inline-block;
-	margin: 0 calc(var(--checkbox-size) * 0.25);
-	width: var(--checkbox-size);
-	height: var(--checkbox-size);
-	border: calc(var(--checkbox-size) * 0.125) solid var(--checkbox-color);
-	border-radius: 12.5%;
-	-webkit-transition: 400ms 100ms ease-out;
-	-o-transition: 400ms 100ms ease-out;
-	transition: 400ms 100ms ease-out;
-	background-color: var(--bg-color);
-}
-
-input[type="checkbox"] {
-	position: absolute;
-	left: -1000px;
-}
-
-.tick {
-	position: relative;
-	right: calc(var(--checkbox-size) * -0.35);
-	top: calc(var(--checkbox-size) * -0.05);
-	width: calc(var(--checkbox-size) * 0.15);
-	height: calc(var(--checkbox-size) * 0.75);
-	border-right: calc(var(--checkbox-size) * 0.25) solid var(--tick-color);
-	border-bottom: calc(var(--checkbox-size) * 0.25) solid var(--tick-color);
-	-webkit-transform: rotate(45deg) scale(0);
-	    -ms-transform: rotate(45deg) scale(0);
-	        transform: rotate(45deg) scale(0);
-	opacity: 0;
-	-webkit-transition: all 600ms cubic-bezier(0.175, 0.885, 0.32, 1.5);
-	-o-transition: all 600ms cubic-bezier(0.175, 0.885, 0.32, 1.5);
-	transition: all 600ms cubic-bezier(0.175, 0.885, 0.32, 1.5);
-}
-
-.tick:before {
-	content: '';
-	position: absolute;
-	left: calc(var(--checkbox-size) * -0.125);
-	bottom: calc(var(--checkbox-size) * -0.25);
-	border: calc(var(--checkbox-size) * 0.125) solid var(--tick-color);
-	border-radius: 50%;
-}
-
-.tick:after {
-	content: '';
-	position: absolute;
-	right: calc(var(--checkbox-size) * -0.25);
-	top: calc(var(--checkbox-size) * -0.125);
-	border: calc(var(--checkbox-size) * 0.125) solid var(--tick-color);
-	border-radius: 50%;
-}
-
-input[type="checkbox"]:checked + label .tick {
-	opacity: 1;
-	-webkit-transform: rotate(45deg) scale(1);
-	    -ms-transform: rotate(45deg) scale(1);
-	        transform: rotate(45deg) scale(1);
-}
-
-input[type="checkbox"]:focus + label {
-	-webkit-animation-name: cb-pop;
-	        animation-name: cb-pop;
-	-webkit-animation-duration: 400ms;
-	        animation-duration: 400ms;
-	-webkit-animation-iteration-count: 1;
-	        animation-iteration-count: 1;
-	-webkit-animation-timing-function: linear;
-	        animation-timing-function: linear;
-}
-
-@-webkit-keyframes cb-pop {
-	0% {
-		-webkit-transform: scale(1);
-		        transform: scale(1);
-	}
-	33% {
-		-webkit-transform: scale(0.9);
-		        transform: scale(0.9);
-	}
-	66% {
-		-webkit-transform: scale(1.1);
-		        transform: scale(1.1);
-	}
-	100% {
-		tranform: scale(1);
-	}
-}
-
-@keyframes cb-pop {
-	0% {
-		-webkit-transform: scale(1);
-		        transform: scale(1);
-	}
-	33% {
-		-webkit-transform: scale(0.9);
-		        transform: scale(0.9);
-	}
-	66% {
-		-webkit-transform: scale(1.1);
-		        transform: scale(1.1);
-	}
-	100% {
-		tranform: scale(1);
-	}
-}
-
-/* ----- FADE IN/OUT ----- */
-@-webkit-keyframes fadeIn {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
- }
- 
-@keyframes fadeIn {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
-}
-
-@-webkit-keyframes fadeOut {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
- }
- 
- @keyframes fadeOut {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
- }
-
- .fadeIn {
-    -webkit-animation-name: fadeIn;
-    animation-name: fadeIn;
- }
-
- .fadeOut {
-    -webkit-animation-name: fadeOut;
-    animation-name: fadeOut;
- }
+/* ----- END SPINNER ----- */
