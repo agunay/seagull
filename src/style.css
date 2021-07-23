@@ -54,11 +54,6 @@
 		height: 60vh;
 		margin: 15vh auto;
 	}
-	.modal-body {
-		padding: 20% 10%;
-		width: 80%;
-		height: 80%;
-	}
 	.modal-body h1 {
 		font-size: 48px;
 	}
@@ -74,11 +69,6 @@
 		width: 80vw !important;
 		height: 80vh !important;
 		margin: 10vh auto !important;
-	}
-	.modal-body {
-		padding: 5% 10% !important;
-		width: 80% !important;
-		height: 80% !important;
 	}
 	.modal-body h1 {
 		font-size: 48px !important;
@@ -123,11 +113,6 @@
 		height: 40vh;
 		margin: 30vh auto;
 	}
-	.modal-body {
-		padding: 20% 10%;
-		width: 80%;
-		height: 60%;
-	}
 	.modal-body h1 {
 		font-size: 48px;
 	}
@@ -148,17 +133,21 @@
 	}	
 	#content p {
 		font-size: 28px;
+		width: 70%;
+		margin: 0 auto;
 	}	
 	#content #pledge {
 		width: 80%;
 		margin: 64px auto;
-		padding: 16px;
+		padding: 30px;
 	}
 	#content #pledge h2 {
 		font-size: 36px;
+		width: 80%;
+		margin: 0 auto;
 	}	
 	.text-content {
-		width: 80%
+		width: 70%
 	}
 	#footer {
 		padding: 0px 25px;
@@ -166,14 +155,9 @@
 		flex-direction: row;
 	}	
 	.modal-content {
-		width: 60vw;
+		width: 30vw;
 		height: 50vh;
 		margin: 25vh auto;
-	}
-	.modal-body {
-		padding: 10%;
-		width: 80%;
-		height: 60%;
 	}
 	.modal-body h1 {
 		font-size: 48px;
@@ -240,9 +224,9 @@ canvas {
     justify-content: center;
     align-items: center;
 }
-#content #pledge .action-header img {
-	height: 50px;
-}
+/* #content #pledge .action-header img {
+    margin-right: 8px;
+} */
 #content #pledge h2 {
 	font-family: Urbanist-Regular;
 	text-decoration: underline;
@@ -271,6 +255,9 @@ canvas {
     color: #8a8989;
     font-family: Urbanist-Bold;
 	cursor:not-allowed;
+}
+.cta {
+	padding-top: 20px;
 }
 .row {
 	flex-direction: row;
@@ -310,11 +297,11 @@ canvas {
 }
 #footer h1 {
 	font-family: Urbanist-Black;
-	color: #284245;
+	color: #D3222B;
 }
 .social_buttons a {
-	color:#fff;
-	background: #284245;
+	color:#f7e0b3;
+	background: #D3222B;
 	border-radius:4px;
 	text-align:center;
 	text-decoration:none;
@@ -420,7 +407,7 @@ canvas {
     padding: 0;
     border: 2px solid #155839;
     border-radius: 20px;
-    background-color: #d8efe5;
+    background-color: #fff8ea;
     color: #284245;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
     -webkit-animation-name: animatetop;
@@ -454,8 +441,11 @@ canvas {
 .modal-body {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
+	margin: 0 auto;
+	width: 80%;
+    height: 100%;
 }
 @-webkit-keyframes animatetop {
 	from {top:-300px; opacity:0} 

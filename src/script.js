@@ -88,7 +88,8 @@ const createEventListeners = () => {
             history.scrollRestoration = 'manual';
         }
         window.scrollTo(0,0);
-        // setPledgeCount();
+
+        // Set pledge count
         countRef.get().then((doc) => {
             if (doc.exists) {
                 pledgeCount = doc.data().pledgeCount;
@@ -102,6 +103,10 @@ const createEventListeners = () => {
     window.addEventListener('orientationchange', () => {
         window.location.href = window.location.href;
     });
+
+    // window.addEventListener('resize', () => {
+    //     window.location.href = window.location.href;
+    // });
 
     const checkbox = document.querySelector('#pledge-checkbox');
     const button = document.querySelector('#pledge-button');
