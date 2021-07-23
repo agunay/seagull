@@ -36,7 +36,7 @@ const parameters = {
     modelScale: undefined,
     logoPosition: undefined,
     modelPosition: undefined,
-    elevation: -1,
+    elevation: -0.5,
     azimuth: undefined,
     distortionScale: undefined,
     distortionSize: undefined
@@ -249,7 +249,8 @@ const addAssets = () => {
 
         setTimeout(() => {
             animationStarted = true;
-        }, 5000);
+            document.querySelector('.arrows').style.display = 'initial';
+        }, 1000);
     }
 
     else if (sceneLoaded && !sceneFinished) {
@@ -335,11 +336,9 @@ const animate = () => {
         }
         
         else if (animationStarted && !sceneFinished && parameters.elevation >= 3.5) {
-            document.querySelector('.arrows').style.display = 'initial';
             animationStarted = false;
             sceneFinished = true;
         }
-
     }
 
     renderer.render(scene, camera);

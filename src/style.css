@@ -24,9 +24,6 @@
 	#content h1 {
 		font-size: 48px;
 	}
-	#content h2 {
-		font-size: 22px;
-	}	
 	#content h3 {
 		font-size: 22px;
 	}	
@@ -36,6 +33,9 @@
 	#content #pledge {
 		margin: 36px auto;
 		padding: 12px;
+	}
+	#content #pledge h2 {
+		font-size: 22px;
 	}
 	.text-content {
 		width: 98%;
@@ -96,9 +96,6 @@
 	#content h1 {
 		font-size: 50px;
 	}
-	#content h2 {
-		font-size: 28px;
-	}	
 	#content h3 {
 		font-size: 28px;
 	}	
@@ -109,6 +106,9 @@
 		width: 90%;
 		margin: 36px auto;
 		padding: 16px;
+	}
+	#content #pledge h2 {
+		font-size: 28px;
 	}
 	.text-content {
 		width: 90%
@@ -143,9 +143,6 @@
 	#content h1 {
 		font-size: 64px;
 	}
-	#content h2 {
-		font-size: 36px;
-	}	
 	#content h3 {
 		font-size: 36px;
 	}	
@@ -157,6 +154,9 @@
 		margin: 64px auto;
 		padding: 16px;
 	}
+	#content #pledge h2 {
+		font-size: 36px;
+	}	
 	.text-content {
 		width: 80%
 	}
@@ -229,13 +229,17 @@ canvas {
     color: #fcbf49;
 	font-family: Urbanist-ExtraBold;
 }
-#content h3 {
-	font-family: Urbanist-Black;
-}
 #content #pledge {
     border-radius: 20px;
     background-color: #fcbf49;
     color: #284245;
+}
+#content #pledge h2 {
+	font-family: Urbanist-Regular;
+	text-decoration: underline;
+}
+#content #pledge h3 {
+	font-family: Urbanist-Black;
 }
 #pledge-button {
     margin-top: 12px;
