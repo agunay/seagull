@@ -234,6 +234,15 @@ canvas {
     background-color: #fcbf49;
     color: #284245;
 }
+#content #pledge .action-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#content #pledge .action-header img {
+	height: 50px;
+}
 #content #pledge h2 {
 	font-family: Urbanist-Regular;
 	text-decoration: underline;

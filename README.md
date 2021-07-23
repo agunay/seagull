@@ -17,10 +17,3 @@ npm run dev
 
 # Build for production in the dist/ directory
 npm run build
-
-# To add a new model
-1. Insert gltf or glb file into `static/models` directory
-2. Uncomment GLTF Import section from `script.js`
-3. Change the `<name_of_the_model>` with the file name of the model
-4. Restart local server
-```
