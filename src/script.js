@@ -110,9 +110,17 @@ const createEventListeners = () => {
 
     const checkbox = document.querySelector('#pledge-checkbox');
     const button = document.querySelector('#pledge-button');
+    const copyToClipboardInput = document.querySelector('#copy-to-clipboard-input');
+    const copyToClipboardButton = document.querySelector('#copy-to-clipboard-button');
     const modal = document.querySelector('#success-modal');
     const modalClose = document.querySelector('#modal-close');
     const content = document.querySelector('#content');
+
+    copyToClipboardButton.addEventListener('click', () => {
+        copyToClipboardInput.select();
+        document.execCommand("copy");
+        copyToClipboardButton.innerHTML = "&#10003";
+    })
 
     checkbox.addEventListener('change', (e) => {
         checkbox.checked ? button.disabled = false : button.disabled = true;
@@ -149,6 +157,7 @@ const createEventListeners = () => {
         if (content.classList.contains('blurred')) {
             content.classList.remove('blurred');
         }
+        copyToClipboardButton.innerHTML = '<img src="/images/clipboard-outline.svg" alt="Clipboard outline"/>';
     }
 
     window.onclick = function(event) {
@@ -157,6 +166,7 @@ const createEventListeners = () => {
             if (content.classList.contains('blurred')) {
                 content.classList.remove('blurred');
             }
+            copyToClipboardButton.innerHTML = '<img src="/images/clipboard-outline.svg" alt="Clipboard outline"/>';
         }
       }
 }
