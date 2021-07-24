@@ -5,12 +5,15 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Water } from 'three/examples/jsm/objects/Water';
 import { Sky } from 'three/examples/jsm/objects/Sky';
 import * as dat from 'dat.gui';
+import party from "party-js";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import party from "party-js";
+import "firebase/auth";
 
+// Authentication (domain restriction is also setup on Firebase web interface) & DB Connection
+let authenticated = false;
 const firebaseConfig = {
-    apiKey: "AIzaSyCsjWceUHIg1-rvehDkJPS-Y9B7kXOyNtA",
+    apiKey: "AIzaSyCsjWceUHIg1-rvehDkJPS-Y9B7kXOyNtA", // not a sensitive key - used to identify the app
     authDomain: "leave-no-trace.firebaseapp.com",
     databaseURL: "https://leave-no-trace-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "leave-no-trace",
@@ -19,9 +22,19 @@ const firebaseConfig = {
     appId: "1:457637248324:web:705aa20f5c9f4d0f4b2b11"
 };
 firebase.initializeApp(firebaseConfig);
+firebase.auth().signInAnonymously()
+  .then(() => {
+    authenticated = true;
+  })
+  .catch((error) => {
+    authenticated = false;
+    console.error(error);
+    document.querySelector('.cta').style.display = "none";
+  });
 const db = firebase.firestore();
 const countRef = db.collection("pledges").doc("count");
 
+// Canvas
 let pledgeCount = 0;
 let canvas, spinnerBackground, spinner;
 let camera, scene, renderer, pmremGenerator;
