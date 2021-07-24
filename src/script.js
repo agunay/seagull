@@ -146,7 +146,7 @@ const createEventListeners = () => {
         // UI actions
         checkbox.checked = false;
         button.disabled = true;
-        modal.style.display = "block";
+        modal.style.display = "flex";
         if (!content.classList.contains('blurred')) {
             content.classList.add('blurred');
         }
