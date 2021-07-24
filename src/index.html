@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>#LeaveNoTrace</title>
     <meta property="og:title"         content="#LeaveNoTraceBrighton" />
-    <meta property="og:description"   content="Pledge to Leave No Trace" />
+    <meta property="og:description"   content="Take a pledge to leave no trace in your Brighton visit" />
     <meta property="og:url"           content="https://affectionate-lumiere-cda417.netlify.app/" />
     <meta property="og:image"         content="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.Jje0ZxRoSZ7HNBumHbTF4wHaDv%26pid%3DApi&f=1" />
     <meta property="og:type"          content="website" />
@@ -29,25 +29,6 @@
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
     </script>
-
-    <!-- <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v11.0&appId=223976426258682&autoLogAppEvents=1" nonce="TZFzTlTs"></script> -->
-
-    <!-- <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script> -->
-    
-    <!-- Your share button code -->
-    <!-- <div class="fb-share-button" 
-    data-href="https://affectionate-lumiere-cda417.netlify.app/" 
-    data-layout="button_count">
-    </div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>     -->
 
     <div class="spinner-container">
         <div class="cssload-container">
@@ -110,6 +91,9 @@
                 </div>
             </div>
         </div>
+        <div id="logo-container">
+            <img src="../static/images/lnt-logo-cropped.png" id="lnt-logo" alt="Leave No Trace Brighton Logo"/>
+        </div>
         <div id="footer">
             <h1>#LeaveNoTraceBrighton</h1>
             <div class="social_buttons">
@@ -141,7 +125,7 @@
         </div>
     </div>
     <script>
-        document.getElementById('shareBtn').onclick = function() {
+        document.getElementById('fb-share-button').onclick = function() {
             FB.ui({
                 method: 'share',
                 mobile_iframe: true,

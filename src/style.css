@@ -40,6 +40,15 @@
 	.text-content {
 		width: 98%;
 	}
+	#logo-container {
+		width: 100%;
+		text-align: center;
+	}
+	#logo-container #lnt-logo {
+		width: 100%;
+		position: relative;
+		top: 4px;
+	}		
 	#footer {
 		padding: 0;
 		flex-direction: column;
@@ -65,6 +74,15 @@
 	#content {
 		height: auto !important;
 	}
+	#logo-container {
+		width: 100%;
+		text-align: center;
+	}
+	#logo-container #lnt-logo {
+		width: 90%;
+		position: relative;
+		top: 4px;
+	}		
 	.modal-content {
 		width: 80vw !important;
 		height: 80vh !important;
@@ -103,6 +121,15 @@
 	.text-content {
 		width: 90%
 	}
+	#logo-container {
+		width: 100%;
+		text-align: center;
+	}
+	#logo-container #lnt-logo {
+		width: 70%;
+		position: relative;
+		top: 4px;
+	}		
 	#footer {
 		padding: 0 25px;
 		height: 50px;
@@ -118,6 +145,18 @@
 	}
 	.modal-body p {
 		font-size: 24px;
+	}
+}
+@media (orientation: landscape) and (min-device-width : 850px) and (max-width: 1024px) {
+	#logo-container {
+		width: fit-content !important;
+		text-align: left !important;
+	}
+	#logo-container #lnt-logo {
+		width: 44% !important;
+		position: relative !important;
+		top: 4px !important;
+		left: -14px !important;
 	}
 }
 @media (min-width: 1025px) {
@@ -149,6 +188,16 @@
 	.text-content {
 		width: 70%
 	}
+	#logo-container {
+		/* width: 100%;
+		text-align: center; */
+	}
+	#logo-container #lnt-logo {
+		width: 35%;
+		position: relative;
+		top: 4px;
+		left: -40px;
+	}	
 	#footer {
 		padding: 0px 25px;
 		height: 50px;
@@ -195,6 +244,8 @@ canvas {
 #container {
     background-color: #284245;
     min-height: 100vh;
+	position: relative;
+    top: 0;
 }
 .text-content {
     margin: 0 auto;
@@ -202,6 +253,7 @@ canvas {
 #content {
     text-align: center;
     color: #eae2b7;
+	height: fit-content;
 	width: 90vw;
 	max-width: 1600px;
 	margin: 0 auto;
@@ -297,15 +349,18 @@ canvas {
 }
 #footer h1 {
 	font-family: Urbanist-Black;
-	color: #D3222B;
+	color: #e01b2e;
+	cursor: default;
 }
 .social_buttons a {
 	color:#f7e0b3;
-	background: #D3222B;
+	background: #e01b2e;
 	border-radius:4px;
 	text-align:center;
 	text-decoration:none;
 	font-family:fontawesome;
+	font-size: 24px;
+    line-height: 20px;
 	position: relative;
 	display: inline-block;
 	width:40px;
