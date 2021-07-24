@@ -68,9 +68,10 @@ const calculateLayout = () => {
     if (isMobile) {
         parameters.logoScale = 120;
         parameters.modelScale = 0.5;
-        parameters.logoPosition =  new THREE.Vector3(30, 20, 400);
-        parameters.modelPosition = new THREE.Vector3(-10, 3, 3);
-        parameters.azimuth = 30;
+        parameters.logoPosition =  new THREE.Vector3(88, 20, 440);
+        parameters.modelPosition = new THREE.Vector3(-24, 3, -20);
+        parameters.cameraPosition = new THREE.Vector3(-60, 20, -80);
+        parameters.azimuth = 32;
         parameters.distortionScale = 12;
         parameters.distortionSize = 0.25;
     }
@@ -80,6 +81,7 @@ const calculateLayout = () => {
         parameters.modelScale = 0.75;
         parameters.logoPosition =  new THREE.Vector3(-24, 16, 240);
         parameters.modelPosition = new THREE.Vector3(3, 3, 3);
+        parameters.cameraPosition = new THREE.Vector3(-60, 20, -100);
         parameters.azimuth = 35;
         parameters.distortionScale = 14;
         parameters.distortionSize = 0.25;
@@ -90,6 +92,7 @@ const calculateLayout = () => {
         parameters.modelScale = 1;
         parameters.logoPosition =  new THREE.Vector3(-60, 16, 180);
         parameters.modelPosition = new THREE.Vector3(3, 3, 3);
+        parameters.cameraPosition = new THREE.Vector3(-60, 20, -100);
         parameters.azimuth = 40;
         parameters.distortionScale = 12;
         parameters.distortionSize = 0.25;
@@ -215,7 +218,7 @@ const sceneSetup = () => {
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera(55, sizes.width / sizes.height, 1, 20000);
-    camera.position.set(-60, 20, -100);
+    camera.position.set(parameters.cameraPosition.x, parameters.cameraPosition.y, parameters.cameraPosition.z);
     
     controls = new OrbitControls(camera, canvas);
     controls.target.set(controlTargetX, controlTargetY, controlTargetZ);

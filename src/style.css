@@ -32,7 +32,7 @@
 	}	
 	#content #pledge {
 		margin: 36px auto;
-		padding: 12px;
+		padding: 20px;
 	}
 	#content #pledge h2 {
 		font-size: 22px;
@@ -79,13 +79,13 @@
 		height: auto !important;
 	}
 	#logo-container {
-		width: 100%;
-		text-align: center;
+		width: 100% !important;
+		text-align: center !important;
 	}
 	#logo-container #lnt-logo {
-		width: 90%;
-		position: relative;
-		top: 4px;
+		width: 90% !important;
+		position: relative !important;
+		top: 4px !important;
 	}		
 	.modal-content {
 		width: 80vw !important;
