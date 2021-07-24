@@ -186,7 +186,7 @@
 	}	
 	#content p {
 		font-size: 28px;
-		width: 70%;
+		width: 80%;
 		margin: 0 auto;
 	}	
 	#content #pledge {
@@ -203,10 +203,10 @@
 		width: 70%
 	}
 	#logo-container #lnt-logo {
-		width: 35%;
+		width: 40%;
 		position: relative;
 		top: 4px;
-		left: -40px;
+		left: -15px;
 	}	
 	#footer {
 		padding: 0px 25px;
@@ -287,9 +287,6 @@ canvas {
     justify-content: center;
     align-items: center;
 }
-/* #content #pledge .action-header img {
-    margin-right: 8px;
-} */
 #content #pledge h2 {
 	font-family: Urbanist-Regular;
 	text-decoration: underline;
@@ -458,6 +455,9 @@ canvas {
 /* ----- END DOWN ARROW ----- */
 
 /* ----- MODAL ----- */
+/* #party-js-container {
+    z-index: 1 !important;
+} */
 #success-modal {
 	display: none;
     position: fixed;
@@ -467,7 +467,6 @@ canvas {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.6);
-	/* display: flex; */
 	flex-direction: column;
 	justify-content: center;
 }

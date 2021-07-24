@@ -7,6 +7,7 @@ import { Sky } from 'three/examples/jsm/objects/Sky';
 import * as dat from 'dat.gui';
 import firebase from "firebase/app";
 import "firebase/firestore";
+import party from "party-js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCsjWceUHIg1-rvehDkJPS-Y9B7kXOyNtA",
@@ -147,6 +148,16 @@ const createEventListeners = () => {
         checkbox.checked = false;
         button.disabled = true;
         modal.style.display = "flex";
+
+        // Success confetti
+        party.sparkles(modal, {
+            // https://party.js.org/docs/ref/templates/#confetti
+            count: party.variation.range(30, 40),
+            speed: party.variation.range(40, 100),
+            size: party.variation.range(1, 2),
+        });
+
+        // Blur background
         if (!content.classList.contains('blurred')) {
             content.classList.add('blurred');
         }
