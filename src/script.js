@@ -35,7 +35,7 @@ const db = firebase.firestore();
 const countRef = db.collection("pledges").doc("count");
 
 // Canvas
-let pledgeCount = 0;
+let pledgeCount;
 let canvas, spinnerBackground, spinner;
 let camera, scene, renderer, pmremGenerator;
 let controls, water, sun, sky, model;
@@ -111,6 +111,7 @@ const createEventListeners = () => {
             if (doc.exists) {
                 pledgeCount = doc.data().pledgeCount;
                 document.querySelector('#counter').innerHTML = doc.data().pledgeCount;
+                document.querySelector('#pledge-counter').style.display = 'block';
             }
         }).catch((error) => {
             console.log("Error getting document:", error);
@@ -156,7 +157,6 @@ const createEventListeners = () => {
         batch.set(pledgeCountRef, { pledgeCount: increment }, { merge: true });
         batch.commit();
 
-        // setPledgeCount();
         pledgeCount++;
         document.querySelector('#counter').innerHTML = pledgeCount;
 

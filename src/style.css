@@ -330,7 +330,8 @@ canvas {
     height: 35px;
 	font-size: 20px;
 }
-.pledge-counter {
+#pledge-counter {
+	display: none;
 	margin-top: 25px;
 	margin-bottom: 50px;
 }
