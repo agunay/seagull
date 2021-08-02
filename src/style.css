@@ -24,9 +24,6 @@
 	#content h1 {
 		font-size: 48px;
 	}
-	#content h3 {
-		font-size: 22px;
-	}	
 	#content p {
 		font-size: 20px;
 	}	
@@ -35,8 +32,11 @@
 		padding: 20px;
 	}
 	#content #pledge h2 {
-		font-size: 22px;
+		font-size: 24px;
 	}
+	#content #pledge h3 {
+		font-size: 22px;
+	}		
 	.text-content {
 		width: 98%;
 	}
@@ -60,6 +60,7 @@
 	}
 	.modal-content {
 		width: 80vw;
+		min-height: 60vh !important;
 	}
 	.modal-body {
 		width: 90%;
@@ -114,9 +115,6 @@
 	#content h1 {
 		font-size: 50px;
 	}
-	#content h3 {
-		font-size: 28px;
-	}	
 	#content p {
 		font-size: 24px;
 	}	
@@ -126,8 +124,11 @@
 		padding: 16px;
 	}
 	#content #pledge h2 {
-		font-size: 28px;
+		font-size: 32px;
 	}
+	#content #pledge h3 {
+		font-size: 28px;
+	}		
 	.text-content {
 		width: 90%
 	}
@@ -147,6 +148,7 @@
 	}
 	.modal-content {
 		width: 70vw;
+		min-height: 60vh;
 	}
 	.modal-body h1 {
 		font-size: 48px;
@@ -171,6 +173,7 @@
 	}
 	.modal-content {
 		width: 50vw !important;
+		min-height: 65vh !important;
 	}
 }
 @media (min-width: 1025px) {
@@ -181,9 +184,6 @@
 	#content h1 {
 		font-size: 64px;
 	}
-	#content h3 {
-		font-size: 36px;
-	}	
 	#content p {
 		font-size: 28px;
 		width: 80%;
@@ -195,10 +195,13 @@
 		padding: 30px;
 	}
 	#content #pledge h2 {
-		font-size: 36px;
+		font-size: 40px;
 		width: 80%;
 		margin: 0 auto;
 	}	
+	#content #pledge h3 {
+		font-size: 36px;
+	}		
 	.text-content {
 		width: 70%
 	}
@@ -215,6 +218,7 @@
 	}	
 	.modal-content {
 		width: 40vw;
+		min-height: 50vh;
 	}
 	.modal-body h1 {
 		font-size: 48px;
@@ -288,11 +292,11 @@ canvas {
     align-items: center;
 }
 #content #pledge h2 {
-	font-family: Urbanist-Regular;
+	font-family: Urbanist-Black;
 	text-decoration: underline;
 }
 #content #pledge h3 {
-	font-family: Urbanist-Black;
+	font-family: Urbanist-Bold;
 }
 #pledge-button {
     margin-top: 12px;
@@ -478,7 +482,7 @@ canvas {
     position: relative;
     border: 2px solid #615858;
     border-radius: 20px;
-    background-color: #ececec;
+    background-color: #eaeaea;
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
